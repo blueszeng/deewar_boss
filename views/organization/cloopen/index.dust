@@ -1,0 +1,129 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-select/bootstrap-select.min.css"/>
+<h3 class="page-title">
+    云通讯调试
+    <small>云通讯REST接口调试</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-bug font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 接口调试</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/organization/cloopen/" method="post">
+                    <input type="hidden" name="modulename" value="Accounts" />
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">APPID：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">aaf98f894e0afaf7014e1ed9850708d5</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">请求方式：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <select name="reqmethod" class="bs-select form-control" data-show-subtext="true">
+                                    <option value="0" data-icon="fa-code icon-info" {@eq key="{reqmethod}" value="0"}selected{/eq}>XML</option>
+                                    <option value="1" data-icon="fa-quote-left icon-info" {@eq key="{reqmethod}" value="1"}selected{/eq}>JSON</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">方法名：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="actionname" class="form-control" title="" value="{actionname}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">请求参数：</label>
+                            <div class="col-md-9">
+                                <textarea name="params" rows="5" class="form-control" title="">{params}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">返回结果：</label>
+                            <div class="col-md-9">
+                                <textarea name="content" rows="5" class="form-control" title="">{content}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                modulename:{
+                    required : true
+                },
+                actionname: {
+                    required: true
+                }
+            },
+            messages: {
+                modulename:{
+                    required: "请输入模块名"
+                },
+                actionname: {
+                    required: "请输入接口方法名"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

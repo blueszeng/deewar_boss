@@ -1,0 +1,146 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    商品图片管理
+    <small>管理系统内商品图片信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 增加商品图片</span>
+                </div>
+                <div class="actions">
+                    <a href="/store/productImage/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/store/productImage/add.html" method="post">
+                    <div class="form-body">
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">商品名称：</label>
+                          <div class="col-md-9">
+                              <input type="hidden" id="productId" name="productId" class="form-control select2" value=
+                                "">
+                          </div>
+                      </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">商品图片：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="imageUrl" name="imageUrl" class="form-control select2" value=
+                                  "">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+        var _productName = '{productImage.name}';
+        var _productId = '{productImage.id}';
+        productName = _productName.split(',')
+        productId = _productId.split(',')
+        console.log(productId)
+        var productNameData = []
+        productName.forEach(function(name, i) {
+            if(name) {
+              productNameData.push({id: productId[i], text: name})
+            }
+        });
+
+        $("#productId").select2({
+            placeholder: "请选属性",
+            maximumSelectionSize: 1,
+            minimumResultsForSearch: Infinity,
+            allowClear: true,
+            data: function() { return {results: productNameData}; }
+        });
+
+
+        var form = $('#inputForm');
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                productId:{
+                    required: true
+                },
+                imageUrl: {
+                    required: true
+                }
+            },
+            messages: {
+                productId:{
+                    required: "请选择商品名称"
+                },
+                imageUrl: {
+                    required: "请输入商品图片"
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+          $.ajax({
+            url: '/store/productImage/add',
+            data: {
+                data:
+                  JSON.stringify({
+                  productId: $("#productId").select2('data').id,
+                  imageUrl: $("#imageUrl").val()
+                })
+          },
+            type: 'POST',
+            dataType: 'json'
+          }).done(function(json) {
+            if (!json.status) {
+              toastr.error(json.message);
+            } else {
+              toastr.success('添加成功');
+              $("#imageUrl").val('')
+            }
+          })
+        }
+
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

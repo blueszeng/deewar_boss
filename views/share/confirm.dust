@@ -1,0 +1,33 @@
+<script>
+    var confirmwindow = function(content,url){
+        bootbox.confirm(content, function(result) {
+            if (result){
+                Metronic.scrollTop();
+                var pageContentBody = $('.page-content .page-content-body');
+
+                Metronic.startPageLoading();
+
+                if (Metronic.getViewPort().width < 992 && $('.page-sidebar').hasClass("in")) {
+                    $('.page-header .responsive-toggler').click();
+                }
+
+                $.ajax({
+                    type: "GET",
+                    cache: false,
+                    url: url,
+                    dataType: "html",
+                    success: function (res) {
+                        Metronic.stopPageLoading();
+                        pageContentBody.html(res);
+                        Layout.fixContentHeight();
+                        Metronic.initAjax();
+                    },
+                    error: function () {
+                        pageContentBody.html('<h4>对不起，服务器无响应，请重试</h4>');
+                        Metronic.stopPageLoading();
+                    }
+                });
+            }
+        });
+    };
+</script>

@@ -1,0 +1,484 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    配送点管理
+    <small>管理系统内物流配送点和区域、人员分配</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 编辑配送点</span>
+                </div>
+                <div class="actions">
+                    <a href="/operation/site/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet" id="formwizard">
+            <div class="portlet-body form">
+                <form action="/operation/site/edit.html" class="form-horizontal" id="submit_form" method="POST">
+                    <input type="hidden" name="siteid" value="{site.id}" />
+                    <input type="hidden" name="oldcityid" value="{site.cityid}" />
+                    <input type="hidden" name="oldpersons" value="{sitestaffs}" />
+                    <div class="form-wizard">
+                        <div class="form-body">
+                            <ul class="nav nav-pills nav-justified steps">
+                                <li>
+                                    <a href="#tab1" data-toggle="tab" class="step">
+												<span class="number">
+												1 </span>
+												<span class="desc">
+												<i class="fa fa-check"></i> 基本资料 </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#tab2" data-toggle="tab" class="step">
+												<span class="number">
+												2 </span>
+												<span class="desc">
+												<i class="fa fa-check"></i> 地址 </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#tab3" data-toggle="tab" class="step active">
+												<span class="number">
+												3 </span>
+												<span class="desc">
+												<i class="fa fa-check"></i> 配送范围和人员 </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div id="bar" class="progress progress-striped" role="progressbar">
+                                <div class="progress-bar progress-bar-success">
+                                </div>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab1">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">配送点名称：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <input type="text" name="site" class="form-control" title="" value="{site.site}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">所属城市：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <select id="cityid" name="cityid" class="form-control input-medium select2me" data-placeholder="请选择所属城市" title="">
+                                                <option value="">请选择所属城市</option>
+                                                {#cities}
+                                                    <option value="{id}" data-lng="{lng}" data-lat="{lat}" {@eq key="{site.cityid}" value="{id}"}selected{/eq}>{city}</option>
+                                                {/cities}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">管理员：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <input type="text" title="" name="admin" id="selectadmin" class="form-control select2" value="{site.admin}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab2">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">配送点地址：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <div class="input-group">
+                                                <input type="text" name="address" class="form-control" title="" value="{site.address}" />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" type="button" id="searchmap">
+                                                        <i class="fa fa-search"></i>
+                                                        搜索</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">地图：</label>
+                                        <div class="col-md-9">
+                                            <iframe id="mapframe" src="/assets/boss/html/sitemap.html?lng={site.lng}&lat={site.lat}" width="100%" height="300" style="border: 1px solid #cccccc;"></iframe>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">经度：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" name="lng" id="lng" type="text" title="" value="{site.lng}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">纬度：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" name="lat" id="lat" type="text" title="" value="{site.lat}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab3">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">覆盖街道范围：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <input type="text" title="" name="zones" class="form-control select2" id="selectzone" value="{sitezones}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">配送人员：<span class="required" aria-required="true">
+										* </span></label>
+                                        <div class="col-md-9">
+                                            <input type="text" title="" name="persons" id="selectperson" class="form-control select2" value="{sitestaffs}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <a class="btn btn-default btn-circle button-previous">
+                                        <i class="fa fa-angle-left"></i> 上一步
+                                    </a>
+                                    <a class="btn btn-primary btn-circle button-next">
+                                        下一步 <i class="fa fa-angle-right"></i>
+                                    </a>
+                                    <a class="btn btn-success btn-circle button-submit">
+                                        确定 <i class="fa fa-play"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script src="/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
+<script>
+
+    function mapresult(address,lng,lat){
+        var form = $('#submit_form');
+        form.find('input[name="address"]').val(address);
+        form.find('input[name="lng"]').val(lng);
+        form.find('input[name="lat"]').val(lat);
+    }
+
+    $(document).ready(function(){
+
+        var selectzone = $('#selectzone');
+        var form = $('#submit_form');
+
+        $.ajax( {
+            url:'/operation/zone/query.html',
+            type:'post',
+            cache:false,
+            data:{
+                cityid: form.find('input[name="oldcityid"]').val()
+            },
+            dataType:'json',
+            success:function(data) {
+                selectzone.select2({
+                    multiple: true,
+                    data:data,
+                    val:''
+                });
+            },
+            error : function() {
+                selectzone.select2({
+                    multiple: true,
+                    data:[],
+                    val:''
+                });
+            }
+        });
+
+        $('#cityid').on('select2-selecting',function(e){
+            if (e.val){
+                $.ajax( {
+                    url:'/operation/zone/query.html',
+                    type:'post',
+                    cache:false,
+                    data:{
+                        cityid: e.val
+                    },
+                    dataType:'json',
+                    success:function(data) {
+                        selectzone.select2({
+                            multiple: true,
+                            data:data,
+                            val:''
+                        });
+                    },
+                    error : function() {
+                        selectzone.select2({
+                            multiple: true,
+                            data:[],
+                            val:''
+                        });
+                    }
+                });
+            } else {
+                selectzone.select2({
+                    multiple: true,
+                    data:[],
+                    val:''
+                });
+            }
+        });
+
+        $("#selectperson").select2({
+            placeholder: "请选择站点配送人员",
+            minimumInputLength: 1,
+            multiple: true,
+            ajax: {
+                url: "/organization/staff/query.html",
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term) {
+                    return {
+                        q: term
+                    };
+                },
+                results: function (data) {
+                    return { results: data};
+                },
+                cache: false
+            },
+            initSelection: function(element, callback) {
+                var id = $(element).val();
+                if (id !== "") {
+                    $.ajax("/organization/staff/selectmulti.html?q=" + id, {
+                        dataType: "json"
+                    }).done(function(data) {
+                        callback(data);
+                    });
+                }
+            },
+            dropdownCssClass: "bigdrop",
+            escapeMarkup: function (m) {
+                return m;
+            }
+        });
+
+        $("#selectadmin").select2({
+            placeholder: "请选择管理人员",
+            minimumInputLength: 1,
+            ajax: {
+                url: "/organization/staff/query.html",
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term) {
+                    return {
+                        q: term
+                    };
+                },
+                results: function (data) {
+                    return { results: data};
+                },
+                cache: false
+            },
+            initSelection: function(element, callback) {
+                var id = $(element).val();
+                if (id !== "") {
+                    $.ajax("/organization/staff/select.html?q=" + id, {
+                        dataType: "json"
+                    }).done(function(data) {
+                        callback(data);
+                    });
+                }
+            },
+            dropdownCssClass: "bigdrop",
+            escapeMarkup: function (m) {
+                return m;
+            }
+        });
+
+
+
+        $('#searchmap').on('click',function(){
+            var keyword = form.find('input[name="address"]').val();
+            var city = null;
+            var cityobject = $('#cityid').select2('data');
+            if (cityobject){
+                if (cityobject.id){
+                    city = cityobject.text;
+                }
+            }
+            if (keyword && city){
+                document.getElementById("mapframe").contentWindow.search(keyword,city);
+            }
+        });
+
+        form.validate({
+            doNotHideMessage: true,
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            rules: {
+                site:{
+                    required:true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                cityid:{
+                    required:true
+                },
+                admin:{
+                    required:true
+                },
+                address:{
+                    required:true
+                },
+                lng:{
+                    required:true,
+                    number:true
+                },
+                lat:{
+                    required:true,
+                    number:true
+                },
+                zones:{
+                    required:true
+                },
+                persons:{
+                    required:true
+                }
+            },
+
+            messages: {
+                site: {
+                    minlength: '配送点名称太短',
+                    required: '请输入配送点名称',
+                    maxlength:'配送点名称太长'
+                },
+                cityid: {
+                    required: '请选择配送点所属城市'
+                },
+                admin:{
+                    required:'请选择配送点管理员'
+                },
+                address:{
+                    required:'请输入或从地图选择配送点地址'
+                },
+                lng:{
+                    required:'请输入或从地图选择配送点经度',
+                    number:'无效的经纬度数字'
+                },
+                lat:{
+                    required:'请输入或从地图选择配送点纬度',
+                    number:'无效的经纬度数字'
+                },
+                zones:{
+                    required:'请选择配送点覆盖范围'
+                },
+                persons:{
+                    required:'请选择配送人员'
+                }
+            },
+
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').removeClass('has-success').addClass('has-error'); // set error class to the control group
+            },
+
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+
+            success: function (label) {
+                label.addClass('valid').closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+
+        });
+
+        var submit = function(form){
+            $.ajaxform(form);
+        };
+
+        var formwizard = $('#formwizard');
+
+        var handleTitle = function(tab, navigation, index) {
+            var total = navigation.find('li').length;
+            var current = index + 1;
+            jQuery('li', formwizard).removeClass("done");
+            var li_list = navigation.find('li');
+            for (var i = 0; i < index; i++) {
+                jQuery(li_list[i]).addClass("done");
+            }
+
+            if (current == 1) {
+                formwizard.find('.button-previous').hide();
+            } else {
+                formwizard.find('.button-previous').show();
+            }
+
+            if (current >= total) {
+                formwizard.find('.button-next').hide();
+                formwizard.find('.button-submit').show();
+            } else {
+                formwizard.find('.button-next').show();
+                formwizard.find('.button-submit').hide();
+            }
+
+            Metronic.scrollTo($('.page-title'));
+        };
+
+        formwizard.bootstrapWizard({
+            'nextSelector': '.button-next',
+            'previousSelector': '.button-previous',
+            onTabClick: function () {
+                return false;
+            },
+            onNext: function (tab, navigation, index) {
+                if (form.valid() == false) {
+                    return false;
+                }
+                handleTitle(tab, navigation, index);
+            },
+            onPrevious: function (tab, navigation, index) {
+                handleTitle(tab, navigation, index);
+            },
+            onTabShow: function (tab, navigation, index) {
+                var total = navigation.find('li').length;
+                var current = index + 1;
+                var $percent = (current / total) * 100;
+                formwizard.find('.progress-bar').css({
+                    width: $percent + '%'
+                });
+            }
+        });
+
+        formwizard.find('.button-previous').hide();
+        formwizard.find('.button-submit').click(function () {
+            submit(form);
+        }).hide();
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

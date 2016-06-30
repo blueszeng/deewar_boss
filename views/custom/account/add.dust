@@ -1,0 +1,174 @@
+<h3 class="page-title">
+    客服专员账号管理
+    <small>管理客服专员系统账号以及语音账号</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-plus font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 增加客服专员</span>
+                </div>
+                <div class="actions">
+                    <a href="/custom/account/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/custom/account/add.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户名：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="username" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登录密码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input id="password" type="password" name="password" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">再次输入密码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="password" name="password2" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">姓名：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="showname" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">手机号码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="tel" name="mobile" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">座席号：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="tel" name="agentid" class="form-control" title="" maxlength="4" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                username:{
+                    required : true
+                },
+                password: {
+                    minlength: 3,
+                    required: true
+                },
+                password2: {
+                    minlength: 3,
+                    required: true,
+                    equalTo: "#password"
+                },
+                showname: {
+                    required: true
+                },
+                mobile:{
+                    required: true
+                },
+                agentid:{
+                    required: true,
+                    minlength:4,
+                    maxlength:4,
+                    number: true
+                }
+            },
+            messages: {
+                username:{
+                    required: "请输入用户名"
+                },
+                password: {
+                    minlength: "登录密码长度太短",
+                    required: "请输入登录密码"
+                },
+                password2: {
+                    minlength: "确认登录密码长度太短",
+                    required: "请再次输入登录密码",
+                    equalTo: "两次输入密码不一致"
+                },
+                showname: {
+                    required: "请输入姓名"
+                },
+                mobile:{
+                    required: '请输入手机号码'
+                },
+                agentid:{
+                    required: '请输入座席号',
+                    minlength:'座席号为4位数字',
+                    maxlength:'座席号为4为数字',
+                    number: '无效的数字'
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

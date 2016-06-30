@@ -1,0 +1,229 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    营销专员资料管理
+    <small>管理营销人员账号和区域</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-plus font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 增加营销人员</span>
+                </div>
+                <div class="actions">
+                    <a href="/market/account/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/market/account/add.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户名：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="username" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登录密码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input id="password" type="password" name="password" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">再次输入密码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="password" name="password2" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">姓名：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="showname" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">手机号码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="tel" name="mobile" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">营销城市：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <select id="cityid" name="cityid" class="form-control input-medium select2me" data-placeholder="请选择营销城市" title="">
+                                    <option value="">请选择所属城市</option>
+                                    {#cities}
+                                        <option value="{id}" data-lng="{lng}" data-lat="{lat}">{city}</option>
+                                    {/cities}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">营销区域：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" title="" name="zones" class="form-control select2" id="selectzone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var selectzone = $('#selectzone');
+
+        selectzone.select2({
+            multiple: true,
+            data:[]
+        });
+
+        $('#cityid').on('select2-selecting',function(e){
+            if (e.val){
+                $.ajax( {
+                    url:'/operation/zone/query.html',
+                    type:'post',
+                    cache:false,
+                    data:{
+                        cityid: e.val
+                    },
+                    dataType:'json',
+                    success:function(data) {
+                        selectzone.select2({
+                            multiple: true,
+                            data:data,
+                            val:''
+                        });
+                    },
+                    error : function() {
+                        selectzone.select2({
+                            multiple: true,
+                            data:[],
+                            val:''
+                        });
+                    }
+                });
+            } else {
+                selectzone.select2({
+                    multiple: true,
+                    data:[],
+                    val:''
+                });
+            }
+        });
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                username:{
+                    required : true
+                },
+                password: {
+                    minlength: 3,
+                    required: true
+                },
+                password2: {
+                    minlength: 3,
+                    required: true,
+                    equalTo: "#password"
+                },
+                showname: {
+                    required: true
+                },
+                mobile:{
+                    required: true
+                },
+                cityid:{
+                    required:true
+                },
+                zones:{
+                    required:true
+                }
+            },
+            messages: {
+                username:{
+                    required: "请输入用户名"
+                },
+                password: {
+                    minlength: "登录密码长度太短",
+                    required: "请输入登录密码"
+                },
+                password2: {
+                    minlength: "确认登录密码长度太短",
+                    required: "请再次输入登录密码",
+                    equalTo: "两次输入密码不一致"
+                },
+                showname: {
+                    required: "请输入姓名"
+                },
+                mobile:{
+                    required: '请输入手机号码'
+                },
+                cityid:{
+                    required: '请选择营销城市'
+                },
+                zones:{
+                    required: '请选择营销区域'
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

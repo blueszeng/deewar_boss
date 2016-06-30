@@ -1,0 +1,200 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    球员每场比赛dppg管理
+    <small>管理系统内球员每场比赛dppg信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 修改球员每场比赛dppg</span>
+                </div>
+                <div class="actions">
+                    <a href="/organization/dppg/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/organization/dppg/edit.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-md-9">
+                                <input type="hidden" name="playerId" class="form-control" title="" value="{dppg.playerId}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9">
+                                <input type="hidden" name="gameId" class="form-control" title="" value="{dppg.gameId}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">球员：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="name" name="name" class="form-control" title="" value="{dppg.name}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">进球：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="goals" name="goals" class="form-control" title="" value="{dppg.record.goals}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">助攻：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="attack" name="attack" class="form-control" title="" value="{dppg.record.attack}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">射门：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="shoot" name="shoot" class="form-control" title="" value="{dppg.record.shoot}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">射正：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="shotsOnGoal" name="shotsOnGoal" class="form-control" title="" value="{dppg.record.shotsOnGoal}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">准确传球：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="accuratePass" name="accuratePass" class="form-control" title="" value="{dppg.record.accuratePass}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">过人：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="extraordinary" name="extraordinary" class="form-control" title="" value="{dppg.record.extraordinary}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">被犯规：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="gotFouled" name="gotFouled" class="form-control" title="" value="{dppg.record.gotFouled}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">犯规：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="foul" name="foul" class="form-control" title="" value="{dppg.record.foul}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">拦截：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="interception" name="interception" class="form-control" title="" value="{dppg.record.interception}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">抢断：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="steals" name="steals" class="form-control" title="" value="{dppg.record.steals}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">黄牌：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="yellowCard" name="yellowCard" class="form-control" title="" value="{dppg.record.yellowCard}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">红牌：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="redCard" name="redCard" class="form-control" title="" value="{dppg.record.redCard}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">乌龙：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="ownBall" name="ownBall" class="form-control" title="" value="{dppg.record.ownBall}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">失误：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="judgment" name="judgment" class="form-control" title="" value="{dppg.record.judgment}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">扑救：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="saves" name="saves" class="form-control" title="" value="{dppg.record.saves}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">扑点球：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="penaltyStopper" name="penaltyStopper" class="form-control" title="" value="{dppg.record.penaltyStopper}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 添加</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+<script>
+$(document).ready(function(){
+    var form = $('#inputForm');
+    form.validate({
+        errorElement: 'span',
+        errorClass: 'help-block',
+        rules: {
+            name:{
+                required : true
+            }
+        },
+        messages: {
+            name:{
+                required: "请输入球队名"
+            }
+        },
+        highlight: function (element) {
+            $(element).closest('.form-group').editClass('has-error');
+        },
+
+        success: function (label) {
+            label.closest('.form-group').removeClass('has-error');
+            label.remove();
+        },
+
+        submitHandler: function (form) {
+            submit(form);
+        }
+    });
+
+    form.find('input').keypress(function (e) {
+        if (e.which == 13) {
+            if (form.validate().form()) {
+                submit(form);
+            }
+            return false;
+        }
+    });
+    var submit = function(form){
+        $.ajaxform(form);
+    }
+  });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

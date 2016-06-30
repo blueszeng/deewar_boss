@@ -1,0 +1,424 @@
+<h3 class="page-title">
+    客服查询
+    <small>查询用户、订单详细信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-weixin font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 按微信ID搜索</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="wechatForm" action="/custom/query/search.html" method="post">
+                    <input type="hidden" name="type" value="0">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">微信ID：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="key" class="form-control" title="" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-yellow-casablanca">
+                    <i class="fa fa-github-alt font-yellow-casablanca"></i>
+                    <span class="caption-subject bold uppercase"> 按淘宝用户搜索</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="taobaoForm" action="/custom/query/search.html" method="post">
+                    <input type="hidden" name="type" value="5">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">淘宝用户：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="key" class="form-control" title="" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-grey-cascade">
+                    <i class="fa fa-file font-grey-cascade"></i>
+                    <span class="caption-subject bold uppercase"> 按订单号搜索</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="orderForm" action="/custom/query/search.html" method="post">
+                    <input type="hidden" name="type" value="2">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">订单号：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="key" class="form-control" title="" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-blue-sharp">
+                    <i class="fa fa-mobile-phone font-blue-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 按下单电话搜索</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="mobileForm" action="/custom/query/search.html" method="post">
+                    <input type="hidden" name="type" value="1">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">手机号码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="key" class="form-control" title="" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-purple-studio">
+                    <i class="fa fa-tags font-purple-studio"></i>
+                    <span class="caption-subject bold uppercase"> 按批次和吊牌搜索</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="packageForm" action="/custom/query/search.html" method="post">
+                    <input type="hidden" name="type" value="4">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">批次吊牌：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-4">
+                                <input type="text" name="key" class="form-control" title="" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="key2" class="form-control" title="" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-red-pink">
+                    <i class="fa fa-barcode font-red-pink"></i>
+                    <span class="caption-subject bold uppercase"> 按收鞋序列号搜索</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="recvForm" action="/custom/query/search.html" method="post">
+                    <input type="hidden" name="type" value="3">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">收鞋条码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="key" class="form-control" title="" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var form0 = $('#wechatForm');
+        var form1 = $('#mobileForm');
+        var form2 = $('#orderForm');
+        var form3 = $('#recvForm');
+        var form4 = $('#packageForm');
+        var form5 = $('#taobaoForm');
+
+        form5.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                key: {
+                    required: true
+                }
+            },
+            messages: {
+                key: {
+                    required: "请输入用户淘宝用户名"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form5.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form5.validate().form()) {
+                    submit(form5);
+                }
+                return false;
+            }
+        });
+
+        form0.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                key: {
+                    required: true
+                }
+            },
+            messages: {
+                key: {
+                    required: "请输入用户微信ID"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form0.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form0.validate().form()) {
+                    submit(form0);
+                }
+                return false;
+            }
+        });
+
+        form1.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                key: {
+                    required: true
+                }
+            },
+            messages: {
+                key: {
+                    required: "请输入联系人手机号码"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form1.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form1.validate().form()) {
+                    submit(form1);
+                }
+                return false;
+            }
+        });
+
+        form2.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                key: {
+                    required: true
+                }
+            },
+            messages: {
+                key: {
+                    required: "请输入订单号"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form2.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form2.validate().form()) {
+                    submit(form2);
+                }
+                return false;
+            }
+        });
+
+        form3.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                key: {
+                    required: true
+                }
+            },
+            messages: {
+                key: {
+                    required: "请输入收鞋包装条码"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form3.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form3.validate().form()) {
+                    submit(form3);
+                }
+                return false;
+            }
+        });
+
+        form4.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                key: {
+                    required: true
+                },
+                key2:{
+                    required: true
+                }
+            },
+            messages: {
+                key: {
+                    required: "请输入批次号"
+                },
+                key2: {
+                    required: "请输入吊牌号"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form4.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form4.validate().form()) {
+                    submit(form4);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

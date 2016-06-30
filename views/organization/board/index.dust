@@ -1,0 +1,131 @@
+<link rel="stylesheet" type="text/css"
+      href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<h3 class="page-title">
+    系统公告管理
+    <small>系统公告的发布内容的增删查改</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-list font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 公告列表</span>
+                    <span class="caption-helper">已发布的公告列表</span>
+                </div>
+                <div class="actions">
+                    <a href="/organization/board/add.html" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-plus"></i>
+                        发布公告
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <table class="table table-striped table-bordered table-hover" id="datatable">
+                        <thead>
+                        <tr role="row" class="heading">
+                            <th width="5%">
+                                序号
+                            </th>
+                            <th width="5%">
+                                类型
+                            </th>
+                            <th>
+                                标题
+                            </th>
+                            <th width="15%">
+                                更新时间
+                            </th>
+                            <th width="18%"></th>
+                        </tr>
+                        <tr role="row" class="filter">
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="sSearch_0" placeholder="按序号搜索">
+                            </td>
+                            <td></td>
+                            <td>
+                                <input type="hidden" class="form-control form-filter input-sm" name="bRegex_1" value="true" />
+                                <input type="text" title="" class="form-control form-filter input-sm" name="sSearch_1" placeholder="按标题模糊搜索">
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <button class="btn btn-circle btn-sm btn-success filter-submit"><i
+                                        class="fa fa-search"></i> 搜索
+                                </button>
+                                <button class="btn btn-circle btn-sm btn-default filter-cancel"><i
+                                        class="fa fa-times"></i> 重置
+                                </button>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<script src="/assets/global/scripts/datatable.js"></script>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var datatable = $("#datatable");
+        var grid = new Datatable();
+        grid.init({
+            src: datatable,
+            dataTable: {
+                bStateSave: false,
+                lengthMenu: [
+                    [10, 20, 50, 100, 150, -1],
+                    [10, 20, 50, 100, 150, '全部']
+                ],
+                pageLength: 10,
+                ajax: {
+                    url: '/organization/board/list.html'
+                },
+                order: [
+                    [0,'desc']
+                ],
+                aoColumnDefs: [{
+                    aTargets: [1],
+                    bSortable: true,
+                    mRender: function(data){
+                        return '<i class="fa fa-' + data + '"></i>';
+                    }
+                },{
+                    aTargets: [3],
+                    bSortable: true,
+                    mRender: function(data){
+                        return moment(data).format('YYYY-MM-DD HH:mm:ss');
+                    }
+                },{
+                    mData:null,
+                    bSortable : false,
+                    aTargets : [4],
+                    mRender: function ( data, type, row ) {
+                        var id = row[0];
+                        return '<a href="/organization/board/edit.html?id=' +id+ '" class="ajaxify btn btn-sm default green-stripe btn-circle"><i class="fa fa-edit"></i> 修改</a> <a data-id="'+id+'" class="btn-sm btn btn-circle yellow-stripe default delete"><i class="fa fa-times"></i> 删除</a>';
+                    }
+                }]
+            }
+        });
+
+        datatable.on('click','.delete',function(){
+            var id = $(this).data('id');
+            confirmwindow('是否删除公告?', '/organization/board/del.html?id=' + id);
+        });
+    });
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}
+{>"share/confirm" /}

@@ -1,0 +1,10 @@
+<script>
+    $(document).ready(function(){
+        {?error}
+            top.location.href = '/login.html?error={error}';
+        {/error}
+        {?info}
+            top.location.href = '/login.html?info={info}';
+        {/info}
+    });
+</script>

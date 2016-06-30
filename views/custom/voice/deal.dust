@@ -1,0 +1,118 @@
+<h3 class="page-title">
+    语音留言管理
+    <small>用户语音留言以及处理</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-comment font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 处理结果</span>
+                </div>
+                <div class="actions">
+                    <a href="/custom/voice/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/custom/voice/deal.html" method="post">
+                    <input type="hidden" name="callid" value="{voice.callid}" />
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">来电号码：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {voice.fromphone}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">留言时间：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {@formatDate date="{voice.fromtime}" format="YYYY年M月D日 HH:mm:ss" /}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">留言内容：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    <audio src="{voice.recordurl}" controls></audio>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">处理结果：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <textarea name="dealdesc" rows="3" class="form-control" title=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                dealdesc:{
+                    required : true
+                }
+            },
+            messages: {
+                dealdesc:{
+                    required: "请输入处理结果"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>

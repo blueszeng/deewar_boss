@@ -1,0 +1,221 @@
+<meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+      href="/assets/global/css/unicorn.main.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+
+
+<div id="content">
+  <div id="content-header">
+      <h1>竞技参数配置</h1>
+
+  </div>
+  <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="widget-box">
+            <div class="widget-title">
+              <span class="icon">
+                <i class="icon-signal"><i class="fa fa-edit font-green-sharp"></i></i>
+              </span>
+              <h5>参数配置</h5>
+            </div>
+            <div class="widget-content">
+              <div class="row">
+                  <div class="col-md-13">
+                      <div class="portlet">
+                          <div class="portlet-body form">
+                              <form role="form" class="form-horizontal" id="inputForm" action="/store/product/add.html" method="post">
+                                  <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">门票费用区间：</label>
+                                        <div class="input-group" >
+                                          <div class = "row">
+                                            <div class="col-md-8">
+                                              <div class="col-md-5" >
+                                                <label class="help-inline">最低门票</label>
+                                              </div>
+                                              <div class="col-md-4" >
+                                                <input type="text" name="time" class="form-control" value=  "" >
+                                                <label class="help-inline">钻</label>
+                                              </div>
+                                              <div class="col-md-5" >
+                                                <label class="help-inline">最高门票</label>
+                                              </div>
+                                              <div class="col-md-4" >
+                                                <input type="text" name="time" class="form-control" value=  "" >
+                                                <label class="help-inline">钻</label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">竞技场人数上限：</label>
+                                        <div class="input-group" >
+                                          <div class = "row">
+                                            <div class="col-md-7">
+                                                <input type="text" name="time" class="form-control" value=  "" >
+                                                <label class="help-inline">人</label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">水位调整：</label>
+                                        <div class="col-md-8" >
+                                          <div class="input-group" >
+                                            <div class = "row">
+                                                <div class="col-md-6" >
+                                                  <label class="help-inline">SDR(salary different rate) 参数</label>
+                                                </div>
+                                                <div class="col-md-4" >
+                                                  <input type="text" name="time" class="form-control" value=  "" >
+                                                  <label class="help-inline">%</label>
+                                                </div>
+                                            </div>
+                                          </div>
+
+                                          <table class="table table-bordered">
+                                           <caption>MCR(MatchDay场次越多难度越大,抽水比率相对较低或者反补)</caption>
+                                           <thead>
+                                              <tr>
+                                                 <th>MatchDay场数</th>
+                                                 <th>1</th>
+                                                 <th>2</th>
+                                                 <th>3</th>
+                                                 <th>4</th>
+                                                 <th>5</th>
+                                                 <th>6</th>
+                                                 <th>7</th>
+                                                 <th>8</th>
+                                                 <th>9</th>
+                                                 <th>10</th>
+                                              </tr>
+                                           </thead>
+                                           <tbody>
+                                              <tr>
+                                                <td>MCR</td>
+                                                <td>5%</td>
+                                                <td>2.5%</td>
+                                                <td>0</td>
+                                                <td>-2.5%</td>
+                                                <td>-5%</td>
+                                                <td>-5%</td>
+                                                <td>-5%</td>
+                                                <td>-5%</td>
+                                                <td>-5%</td>
+                                                <td>-5%</td>
+                                              </tr>
+                                           </tbody>
+                                        </table>
+
+                                        <div class="input-group" >
+                                          <div class = "row">
+                                              <div class="col-md-6" >
+                                                <label class="help-inline">DWR官方手动调整的水位层</label>
+                                              </div>
+                                              <div class="col-md-4" >
+                                                <input type="text" name="time" class="form-control" value=  "" >
+                                                <label class="help-inline">%</label>
+                                              </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div class="form-actions">
+                                      <div class="row">
+                                          <div class="col-md-offset-5 col-md-9">
+                                              <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 保存</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+$(document).ready(function () {
+
+  var competition = [
+    {id: 1, text: '中超'},
+    {id: 2, text: 'NBA'}
+  ]
+  var startTime = [
+    {id: 1, text: '2016-06-23'},
+    {id: 2, text: '2016-06-24'}
+  ]
+  var matchDay = [
+    {id: 1, text: '2016-06-25'},
+    {id: 2, text: '2016-06-26'}
+  ]
+  var reward = [
+    {id: 1, text: '无'},
+    {id: 2, text: '有'}
+  ]
+ var athleticType = [
+   {id: 1, text: '第一名有奖'},
+   {id: 2, text: '前三名有奖'},
+   {id: 3, text: '前50%有奖'},
+   {id: 4, text: '前25名有奖'}
+ ]
+
+ $("#competition").select2({
+     placeholder: "请选择赛事",
+     maximumSelectionSize: 1,
+     minimumResultsForSearch: Infinity,
+     allowClear: true,
+     data: function() { return {results: competition}; }
+ });
+ $("#startTime").select2({
+     placeholder: "请选择开始时间",
+     maximumSelectionSize: 1,
+     minimumResultsForSearch: Infinity,
+     allowClear: true,
+     data: function() { return {results: startTime}; }
+ });
+ $("#matchDay").select2({
+     placeholder: "请选择MatchDay",
+     maximumSelectionSize: 1,
+     minimumResultsForSearch: Infinity,
+     allowClear: true,
+     data: function() { return {results: matchDay}; }
+ });
+  $("#addReward").select2({
+      placeholder: "请选择追加奖励",
+      maximumSelectionSize: 1,
+      minimumResultsForSearch: Infinity,
+      allowClear: true,
+      data: function() { return {results: reward}; }
+  });
+
+  $("#athleticType").select2({
+      placeholder: "请选择竞技类型",
+      maximumSelectionSize: 1,
+      minimumResultsForSearch: Infinity,
+      allowClear: true,
+      data: function() { return {results: athleticType}; }
+  });
+});
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}
+{>"share/confirm" /}

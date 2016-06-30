@@ -1,0 +1,117 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    商品单元管理
+    <small>管理系统内商品单元信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 修改商品单元</span>
+                </div>
+                <div class="actions">
+                    <a href="/store/productUnit/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/store/productUnit/edit.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-md-9">
+                                <input type="hidden" name="productUnitId" class="form-control" title="" value="{productUnit.id}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">库存：</label>
+                            <div class="col-md-9">
+                                <input type="text" id ="stock" name="stock" class="form-control select2" value=
+                                  "{productUnit.stock}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var form = $('#inputForm');
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+              productId: {
+                  required : true
+              },
+              propertyId: {
+                  required: true
+              },
+              propertyValueId: {
+                  required: true
+              },
+              stock: {
+                  required: true
+              }
+            },
+            messages: {
+              productId: {
+                  required: "请选择商品名称"
+              },
+              propertyId: {
+                  required: "请选择属性"
+              },
+              propertyValueId: {
+                  required: "请选择属性分类"
+              },
+              stock: {
+                  required: "请输入库存"
+              }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').editClass('has-error');
+            },
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

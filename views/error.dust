@@ -1,0 +1,12 @@
+<h3 class="page-title">
+    错误
+</h3>
+<div class="note note-danger">
+    <h4 class="block">{title}</h4>
+    <p>{message}</p>
+</div>
+<div class="row">
+    <div class="col-md-offset-4 col-md-4">
+
+    </div>
+</div>

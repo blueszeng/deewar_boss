@@ -1,0 +1,26 @@
+<h3 class="page-title">
+    优惠券管理
+    <small>管理系统内优惠券的种类</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-qrcode font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 优惠券投放二维码</span>
+                </div>
+                <div class="actions">
+                    <a href="/operation/coupon/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body text-center">
+                <img src="{imgsrc}" style="width:128px;height:128px;" />
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,145 @@
+<link rel="stylesheet" type="text/css"
+      href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<h3 class="page-title">
+    用户管理
+    <small>管理各渠道用户</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-list font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 今日新增用户列表</span>
+                    <span class="caption-helper">今日新增用户列表</span>
+                </div>
+                <div class="actions">
+
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <table class="table table-striped table-bordered table-hover" id="datatable">
+                        <thead>
+                        <tr role="row" class="heading">
+                            <th width="60">
+                                头像
+                            </th>
+                            <th>
+                                昵称
+                            </th>
+                            <th width="50">
+                                性别
+                            </th>
+                            <th width="80">
+                                手机
+                            </th>
+                            <th width="120">
+                                关注时间
+                            </th>
+                            <th width="60">
+                                是否活动
+                            </th>
+                            <th width="120">
+                                更新时间
+                            </th>
+                            <th width="80"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<script src="/assets/global/scripts/datatable.js"></script>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var datatable = $("#datatable");
+        var grid = new Datatable();
+        grid.init({
+            src: datatable,
+            dataTable: {
+                bStateSave: false,
+                lengthMenu: [
+                    [10, 20, 50, 100, 150, -1],
+                    [10, 20, 50, 100, 150, '全部']
+                ],
+                pageLength: 10,
+                ajax: {
+                    url: '/user/today/list.html'
+                },
+                order: [
+                    [8,'desc']
+                ],
+                aoColumnDefs: [{
+                    aTargets: [0],
+                    bSortable : false,
+                    mRender: function(data){
+                        if (data){
+                            return '<img src="' + data + '" class="img-responsive img-rounded"/>';
+                        } else {
+                            return '未设置';
+                        }
+                    }
+                },{
+                    aTargets: [1],
+                    bSortable : false
+                },{
+                    aTargets: [2],
+                    bSortable : true,
+                    mRender:function(data){
+                        switch(data){
+                            case 1:
+                                return '男';
+                            case 2:
+                                return '女';
+                            default:
+                                return '未设置';
+                        }
+                    }
+                },{
+                    aTargets: [4],
+                    bSortable: true,
+                    mRender: function(data){
+                        return moment(data).format('YYYY-MM-DD HH:mm:ss');
+                    }
+                },{
+                    aTargets: [5],
+                    bSortable: true,
+                    mRender: function(data){
+                        if (data == 0){
+                            return '<span class="badge badge-warning badge-roundless">未关注</span>';
+                        } else {
+                            return '<span class="badge badge-success badge-roundless">活动中</span>';
+                        }
+                    }
+                },{
+                    aTargets: [6],
+                    bSortable: true,
+                    mRender: function(data){
+                        return moment(data).format('YYYY-MM-DD HH:mm:ss');
+                    }
+                },{
+                    mData:null,
+                    bSortable : false,
+                    aTargets : [7],
+                    mRender: function ( data, type, row ) {
+                        var userid = row[8];
+                        return '<a href="/custom/query/info.html?source=' + encodeURIComponent('/user/today/') + '&userid=' +userid+ '" class="ajaxify btn btn-sm default green-stripe btn-circle"><i class="fa fa-arrow-right"></i> 详情</a>';
+                    }
+                }, {
+                    aTargets:[8],
+                    visible:false
+                }]
+            }
+        });
+
+    });
+</script>

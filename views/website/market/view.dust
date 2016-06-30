@@ -1,0 +1,39 @@
+<h3 class="page-title">
+    特惠活动管理
+    <small>管理特惠活动栏目文章</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-file-text-o font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> {article.title}</span>
+                </div>
+                <div class="actions">
+                    <a href="/website/market/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+                <div class="portlet-body">
+                    <div class="portlet grey solid">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-bell"></i>活动日期
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            {@formatDate date="{article.startdate}" format="YYYY年M月D日" /}-{@formatDate date="{article.enddate}" format="YYYY年M月D日" /}
+                        </div>
+                    </div>
+                </div>
+            <div class="portlet-body">
+                <img src="{article.banner}" width="580" height="171" />
+                {article.content|s}
+            </div>
+        </div>
+
+    </div>
+</div>

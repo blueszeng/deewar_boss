@@ -1,0 +1,67 @@
+{?error}
+    <div class="note note-danger">
+        <h4 class="block">发生错误</h4>
+        <p>
+            {error}
+        </p>
+    </div>
+{:else}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title"><i class="fa fa-comments"></i> 代理小区信息</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row" style="overflow-y: scroll;height:300px;">
+            <div class="col-md-12">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+                            序号
+                        </th>
+                        <th>
+                            街道
+                        </th>
+                        <th>
+                            小区/区域名
+                        </th>
+                        <th>
+                            地址
+                        </th>
+                        <th>
+                            户数
+                        </th>
+                        <th>
+                            关键字
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {#villages}
+                        <tr>
+                            <td>
+                                {id}
+                            </td>
+                            <td>
+                                {zone}
+                            </td>
+                            <td>
+                                {villagename}
+                            </td>
+                            <td>
+                                {address}
+                            </td>
+                            <td>
+                                {households}户
+                            </td>
+                            <td>
+                                {villagekey}
+                            </td>
+                        </tr>
+                    {/villages}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{/error}

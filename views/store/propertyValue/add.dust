@@ -1,0 +1,146 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    属性分类管理
+    <small>管理系统内属性分类信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 增加属性分类</span>
+                </div>
+                <div class="actions">
+                    <a href="/store/propertyValue/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/store/propertyValue/add.html" method="post">
+                    <div class="form-body">
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">商品名：</label>
+                          <div class="col-md-9">
+                              <input type="hidden" id="propertyId" name="propertyId" class="form-control select2" value=
+                                "" />
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">属性分类值：</label>
+                          <div class="col-md-9">
+                              <input type="text" id="value" name="value" class="form-control select2" value=
+                                "" />
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+        var _propertyName = '{property.name}';
+        var _propertyId = '{property.id}';
+        propertyName = _propertyName.split(',')
+        propertyId = _propertyId.split(',')
+        console.log(propertyId)
+        var propertyNameData = []
+        propertyName.forEach(function(name, i) {
+            if(name) {
+              propertyNameData.push({id: propertyId[i], text: name})
+            }
+        });
+
+        $("#propertyId").select2({
+            placeholder: "请选属性",
+            maximumSelectionSize: 1,
+            minimumResultsForSearch: Infinity,
+            allowClear: true,
+            data: function() { return {results: propertyNameData}; }
+        });
+
+
+        var form = $('#inputForm');
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                propertyId:{
+                    required : true
+                },
+                value: {
+                    required: true
+                }
+            },
+            messages: {
+                propertyId:{
+                    required: "请选择属性名"
+                },
+                value: {
+                    required: "属性值不能为空"
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+          $.ajax({
+            url: '/store/propertyValue/add',
+            data: {
+                data:
+                  JSON.stringify({
+                  propertyId: $("#propertyId").select2('data').id,
+                  value: $("#value").val()
+                })
+          },
+            type: 'POST',
+            dataType: 'json'
+          }).done(function(json) {
+            if (!json.status) {
+              toastr.error(json.message);
+            } else {
+              toastr.success('添加成功');
+              $("#value").val('')
+            }
+          })
+        }
+
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

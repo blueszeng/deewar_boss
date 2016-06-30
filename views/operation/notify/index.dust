@@ -1,0 +1,228 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    物流消息通知
+    <small>给物流人员发送消息</small>
+</h3>
+<div class="tabbable-line">
+    <ul class="nav nav-tabs ">
+        <li {@eq key="{tab}" value="broadcast"}class="active"{/eq}>
+            <a href="#tab_broadcast" data-toggle="tab">
+                广播给所有人</a>
+        </li>
+        <li {@eq key="{tab}" value="send"}class="active"{/eq}>
+            <a href="#tab_send" data-toggle="tab">
+                发送给特定用户</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane {@eq key="{tab}" value="broadcast"}active{/eq}" id="tab_broadcast">
+            <div class="form">
+                <form role="form" class="form-horizontal" id="broadcastForm" action="/operation/notify/broadcast.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">消息标题：</label>
+                            <div class="col-md-9">
+                                <input type="text" name="title" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">消息内容：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <textarea name="content" rows="2" class="form-control" title=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="tab-pane {@eq key="{tab}" value="send"}active{/eq}" id="tab_send">
+            <div class="form">
+                <form role="form" class="form-horizontal" id="sendForm" action="/operation/notify/send.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">接收人员：<span class="required" aria-required="true">
+                                            * </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="persons" title="" id="selectperson" class="form-control select2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">消息标题：</label>
+                            <div class="col-md-9">
+                                <input type="text" name="title" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">消息内容：<span class="required" aria-required="true">
+                                            * </span></label>
+                            <div class="col-md-9">
+                                <textarea name="content" rows="2" class="form-control" title=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $("#selectperson").select2({
+            placeholder: "请选择发送对象",
+            minimumInputLength: 1,
+            multiple: true,
+            ajax: {
+                url: "/organization/staff/query.html",
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term) {
+                    return {
+                        q: term
+                    };
+                },
+                results: function (data) {
+                    return { results: data};
+                },
+                cache: false
+            },
+            dropdownCssClass: "bigdrop",
+            escapeMarkup: function (m) {
+                return m;
+            }
+        });
+
+        var formBroadcast = $('#broadcastForm');
+        var formSend = $('#sendForm');
+
+        formBroadcast.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                title:{
+                    maxlength:20
+                },
+                content:{
+                    required:true,
+                    maxlength:40
+                }
+            },
+            messages: {
+                title:{
+                    maxlength:"消息标题最多20个字符"
+                },
+                content:{
+                    required:"请输入消息内容",
+                    maxlength:"消息内容最多40个字符"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        formSend.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                title:{
+                    maxlength:20
+                },
+                content:{
+                    required:true,
+                    maxlength:40
+                },
+                persons:{
+                    required:true
+                }
+            },
+            messages: {
+                title:{
+                    maxlength:'消息标题最多20个字符'
+                },
+                content:{
+                    required:'请输入消息内容',
+                    maxlength:'消息内容最多40个字符'
+                },
+                persons:{
+                    required:'请选择消息接收对象'
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        formBroadcast.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (formBroadcast.validate().form()) {
+                    submit(formBroadcast);
+                }
+                return false;
+            }
+        });
+
+        formSend.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (formSend.validate().form()) {
+                    submit(formSend);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+
+    });
+
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

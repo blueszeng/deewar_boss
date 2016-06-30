@@ -1,0 +1,94 @@
+<h3 class="page-title">
+    淘宝开发
+    <small>淘宝SessionKey设置</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-bug font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 淘宝SessionKey设置</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/organization/taobaokey/" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">SESSIONKEY：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="sessionkey" class="form-control" title="" value="{sessionkey}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                sessionkey:{
+                    required : true
+                }
+            },
+            messages: {
+                sessionkey:{
+                    required: "请输入淘宝SESSIONKEY"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

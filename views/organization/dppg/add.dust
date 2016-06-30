@@ -1,0 +1,373 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    球员每场比赛DPPG管理
+    <small>管理系统内球员每场比赛DPPG信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 增加球员每场比赛DPPG</span>
+                </div>
+                <div class="actions">
+                    <a href="/organization/dppg/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/organization/dppg/add.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">今天已完成的比赛：</label>
+                            <div class="col-md-9">
+                                <input type="hidden" id="gameId" name="gameId" class="form-control select2" value=
+                                  "">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">已对战过的球队：</label>
+                            <div class="col-md-9">
+                                <input type="hidden" id="teamId" name="teamId" class="form-control select2" value=
+                                  "">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">球员列表：</label>
+                            <div class="col-md-9">
+                                <input type="hidden" id="playerId" name="playerId" class="form-control select2" value=
+                                  "">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">进球：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="goals" name="goals" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">助攻：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="attack" name="attack" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">射门：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="shoot" name="shoot" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">射正：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="shotsOnGoal" name="shotsOnGoal" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">准确传球：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="accuratePass" name="accuratePass" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">过人：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="extraordinary" name="extraordinary" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">被犯规：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="gotFouled" name="gotFouled" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">犯规：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="foul" name="foul" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">拦截：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="interception" name="interception" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">抢断：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="steals" name="steals" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">黄牌：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="yellowCard" name="yellowCard" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">红牌：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="redCard" name="redCard" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">乌龙：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="ownBall" name="ownBall" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">失误：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="judgment" name="judgment" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">扑救：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="saves" name="saves" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">扑点球：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="penaltyStopper" name="penaltyStopper" class="form-control" title="" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 添加</button>
+                                <button type="button" id = "dppgConut" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 计算</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+<script>
+    $(document).ready(function(){
+      toastr.options.positionClass = 'toast-bottom-right';
+      var _gameName = '{game.name}';
+      var _gameId = '{game.id}';
+      var team = []
+      var player = []
+
+      _gameName = _gameName.split(',')
+      _gameId = _gameId.split(',')
+      var _gameNameData = []
+      _gameName.forEach(function(gameName, i) {
+          if(gameName) {
+            _gameNameData.push({id: i, text: gameName})
+          }
+      });
+
+      $("#gameId").select2({
+          placeholder: "请选已完成的比赛",
+          maximumSelectionSize: 1,
+          minimumResultsForSearch: Infinity,
+          allowClear: true,
+          data: function() { return {results: _gameNameData}; }
+      });
+      $("#gameId").click(
+        function() {
+          var selectIndex = $("#gameId").val()
+          if(selectIndex) {
+            $.ajax({
+              url: '/organization/dppg/team',
+              data: {
+                id: _gameId[selectIndex]
+              },
+              type: 'GET',
+              dataType: 'json'
+            }).done(function(json) {
+              if (Object.keys(json).length > 0) {
+                var _teamNameData = []
+                _teamNameData.push({id: json.hostTeam.id, text: json.hostTeam.name})
+                _teamNameData.push({id: json.guestTeam.id, text: json.guestTeam.name})
+                team = _teamNameData
+                $("#teamId").val('').trigger("change")
+                $("#playerId").val('').trigger("change")
+              }
+
+            })
+          }
+        });
+
+
+        $("#teamId").select2({
+            placeholder: "请选球队",
+            maximumSelectionSize: 1,
+            minimumResultsForSearch: Infinity,
+            allowClear: true,
+            data: function() { return {results: team}; }
+        });
+        $("#teamId").click(
+          function() {
+          //  console.log("-----------x--->")
+
+            var selectIndex =$("#teamId").val()
+            if(selectIndex) {
+              $.ajax({
+                url: '/organization/dppg/player',
+                data: {
+                  id: selectIndex
+                },
+                type: 'GET',
+                dataType: 'json'
+              }).done(function(json) {
+                if (json.length > 0) {
+                  var _playerNameData = []
+                  for(var i =0; i <json.length; i++) {
+                    _playerNameData.push({id: json[i].id, text: json[i].name})
+                  }
+                  player = _playerNameData
+                  $("#playerId").val('').trigger("change")
+                }
+              })
+            }
+
+          })
+
+      $("#playerId").select2({
+          placeholder: "请选球员",
+          maximumSelectionSize: 1,
+          minimumResultsForSearch: Infinity,
+          allowClear: true,
+          data: function() { return {results: player}; }
+      });
+
+        $("#dppgConut").click(
+          function() {
+            $.ajax({
+              url: 'http://localhost:3006/dppg/dppgCount',
+              data: {
+              },
+              type: 'GET',
+              dataType: 'jsonp',
+              success: function(json) {
+
+              },
+              error: function(err) {
+                if(err.status === 200) {
+                  toastr.success('计算请求发送成功')
+                }
+
+              }
+            })
+          }
+
+        )
+
+
+        var form = $('#inputForm');
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                name:{
+                    required : true,
+                    minlength: 3
+                }
+            },
+            messages: {
+                name:{
+                    required: "请输入球员每场比赛DPPG名",
+                    minlength: "球员每场比赛DPPG名称太短"
+
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+               submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+          $.ajax({
+            url: '/organization/dppg/addDppg',
+            data: {
+                data:
+                  JSON.stringify({
+                  gameId: _gameId[$("#gameId").select2('data').id],
+                  playerId: $("#playerId").select2('data').id,
+                  record: {
+                    goals: $("#goals").val(), // 进球
+                    attack: $("#attack").val(), // 进攻
+                    shoot: $("#shoot").val(), // 射门
+                    shotsOnGoal: $("#shotsOnGoal").val(), // 射正
+                    accuratePass: $("#accuratePass").val(), // 准确传球
+                    extraordinary: $("#extraordinary").val(), // 过人
+                    gotFouled: $("#gotFouled").val(), // 被犯规
+                    foul: $("#foul").val(), // 犯规
+                    interception: $("#interception").val(), // 拦截
+                    steals: $("#steals").val(), // 抢断
+                    yellowCard: $("#yellowCard").val(), // 黄牌
+                    redCard: $("#redCard").val(), // 红牌
+                    ownBall: $("#ownBall").val(), // 乌龙
+                    judgment: $("#judgment").val(), // 失误
+                    saves: $("#saves").val(), // 扑救
+                    penaltyStopper: $("#penaltyStopper").val() // 扑点球
+                  }
+                })
+          },
+            type: 'POST',
+            dataType: 'json'
+          }).done(function(json) {
+            if (!json.status) {
+              toastr.error('重复添加');
+            } else {
+              toastr.success('添加成功');
+              $("#goals").val('')
+              $("#attack").val('')
+              $("#shoot").val('')
+              $("#shotsOnGoal").val('')
+              $("#accuratePass").val('')
+              $("#extraordinary").val('')
+              $("#gotFouled").val('')
+              $("#foul").val('')
+              $("#interception").val('')
+              $("#steals").val('')
+              $("#yellowCard").val('')
+              $("#redCard").val('')
+              $("#ownBall").val('')
+              $("#playerId").val('').trigger("change")
+            }
+          })
+        }
+
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

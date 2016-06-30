@@ -1,0 +1,157 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    属性管理
+    <small>管理系统内属性信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 修改属性</span>
+                </div>
+                <div class="actions">
+                    <a href="/store/product/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/store/product/edit.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-md-9">
+                                <input type="hidden" name="productId" class="form-control" title="" value="{product.id}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">商品名称：</label>
+                            <div class="col-md-9">
+                                <input type="text" id="name" name="name" class="form-control select2" value=
+                                  "{product.name}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">商品描述：</label>
+                            <div class="col-md-9">
+                                <input type="text" name="description" class="form-control select2" value=
+                                  "{product.description}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">点券价格：</label>
+                            <div class="col-md-9">
+                                <input type="text" name="unitDeerPointPrice" class="form-control select2" value=
+                                  "{product.unitDeerPointPrice}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">现金价格：</label>
+                            <div class="col-md-9">
+                                <input type="text" name="unitCashPrice" class="form-control select2" value=
+                                  "{product.unitCashPrice}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">拆扣：</label>
+                            <div class="col-md-9">
+                                <input type="text" name="discount" class="form-control select2" value=
+                                  "{product.discount}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">首页展示图片：</label>
+                            <div class="col-md-9">
+                                <input type="text" name="imageUrl" class="form-control select2" value=
+                                  "{product.imageUrl}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+        var form = $('#inputForm');
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+              name:{
+                  required : true
+              },
+              unitDeerPointPrice: {
+                  required: true
+              },
+              unitCashPrice: {
+                  required: true
+              },
+              discount: {
+                  required: true
+              },
+              imageUrl: {
+                  required: true
+              }
+            },
+            messages: {
+              name:{
+                  required : "请输入商品名称"
+              },
+              unitDeerPointPrice: {
+                  required: "请输入点券价格"
+              },
+              unitCashPrice: {
+                  required: "请输入现金价格"
+              },
+              discount: {
+                  required: "请输入拆扣"
+              },
+              imageUrl: {
+                  required: "请输入首页展示图片URL"
+              }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').editClass('has-error');
+            },
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+          $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

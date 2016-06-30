@@ -1,0 +1,137 @@
+<link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/global/plugins/icheck/skins/all.css" rel="stylesheet"/>
+<h3 class="page-title">
+    运营区域管理
+    <small>管理运营城市、行政区和街道等运营范围</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 编辑街道</span>
+                </div>
+                <div class="actions">
+                    <a href="/operation/zone/district.html?cityid={cityid}" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/operation/zone/editdistrict.html" method="post">
+                    <input type="hidden" name="cityid" value="{cityid}" />
+                    <input type="hidden" name="zoneid" value="{zoneid}" />
+                    <input type="hidden" name="olddistrictid" value="{districtid}" />
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属城市：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">{city}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属行政区：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <div class="icheck-list form-control-static">
+                                    {#districts}
+                                        <label><input type="radio" name="districtid" value="{id}" class="icheck" {@eq key="{districtid}" value="{id}"}checked{/eq}> {district} </label>
+                                    {/districts}
+                                    <label><input type="radio" name="districtid" value="-1" class="icheck"> <input type="text" name="district" title="" placeholder="请输入新的行政区名称" /></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">街道名称：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="zone" class="form-control" title="" value="{zone}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">是否开放运营：</label>
+                            <div class="col-md-9">
+                                <input title="" type="checkbox" name="opened" class="make-switch" {@eq key="{opened}" value="1"}checked{/eq} data-on-color="success" data-off-color="default" data-on-text="开放" data-off-text="关闭">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/icheck/icheck.min.js"></script>
+<script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var form = $('#inputForm');
+
+        $.validator.addMethod('district', function (value) {
+            if (form.find('input:radio[name="districtid"]:checked').val() == '-1'){
+                return !!value;
+            } else {
+                return true;
+            }
+        }, '请输入行政区名称');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                zone:{
+                    required : true
+                },
+                district:{
+                    district: true
+                }
+            },
+            messages: {
+                zone:{
+                    required: "请输入街道名称"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

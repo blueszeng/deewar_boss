@@ -1,0 +1,149 @@
+<link rel="stylesheet" type="text/css"
+      href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<h3 class="page-title">
+    客服专员账号管理
+    <small>管理客服专员系统账号以及语音账号</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-list font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 客服专员列表</span>
+                    <span class="caption-helper">系统内所有客服专员列表</span>
+                </div>
+                <div class="actions">
+                    <a href="/custom/account/add.html" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-plus"></i>
+                        增加客服专员
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <table class="table table-striped table-bordered table-hover" id="datatable">
+                        <thead>
+                        <tr role="row" class="heading">
+                            <th width="6%">
+                                用户名
+                            </th>
+                            <th width="6%">
+                                姓名
+                            </th>
+                            <th width="8%">
+                                手机号码
+                            </th>
+                            <th width="8%">
+                                座席号
+                            </th>
+                            <th width="15%">
+                                客服SID
+                            </th>
+                            <th>
+                                VOIP账号
+                            </th>
+                            <th width="15%">
+                                更新时间
+                            </th>
+                            <th width="30%"></th>
+                        </tr>
+                        <tr role="row" class="filter">
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="sSearch_7" placeholder="按用户名搜索">
+                            </td>
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="sSearch_1" placeholder="按姓名搜索">
+                            </td>
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="sSearch_2" placeholder="按手机搜索">
+                            </td>
+                            <td></td>
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="sSearch_4" placeholder="按客服SID搜索">
+                            </td>
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="sSearch_5" placeholder="按VOIP账号搜索">
+                            </td>
+                            <td></td>
+                            <td>
+                                <button class="btn btn-circle btn-sm btn-success filter-submit"><i
+                                        class="fa fa-search"></i> 搜索
+                                </button>
+                                <button class="btn btn-circle btn-sm btn-default filter-cancel"><i
+                                        class="fa fa-times"></i> 重置
+                                </button>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<script src="/assets/global/scripts/datatable.js"></script>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var datatable = $("#datatable");
+        var grid = new Datatable();
+        grid.init({
+            src: datatable,
+            dataTable: {
+                bStateSave: false,
+                lengthMenu: [
+                    [10, 20, 50, 100, 150, -1],
+                    [10, 20, 50, 100, 150, '全部']
+                ],
+                pageLength: 10,
+                ajax: {
+                    url: '/custom/account/list.html'
+                },
+                order: [
+                    [6,'desc']
+                ],
+                aoColumnDefs: [{
+                    aTargets: [6],
+                    bSortable: true,
+                    mRender: function(data){
+                        return moment(data).format('YYYY-MM-DD HH:mm:ss');
+                    }
+                },{
+                    mData:null,
+                    bSortable : false,
+                    aTargets : [7],
+                    mRender: function ( data, type, row ) {
+                        var username = row[0];
+                        return '<a href="/custom/account/edit.html?username=' +username+ '" class="ajaxify btn btn-sm default green-stripe btn-circle"><i class="fa fa-edit"></i> 修改</a> <a data-username="'+username+'" class="delete btn-sm btn btn-circle yellow-stripe default"><i class="fa fa-times"></i> 删除</a> <a data-username="'+username+'" class="restore btn-sm btn btn-circle yellow-stripe default"><i class="fa fa-refresh"></i> 恢复座席状态</a>';
+                    }
+                }, {
+                    aTargets:[8],
+                    visible:false
+                }]
+            }
+        });
+
+        datatable.on('click','.delete',function(){
+            var username = $(this).data('username');
+            confirmwindow('是否删除客服专员[' + username + ']?', '/custom/account/del.html?username=' + username);
+        });
+
+        datatable.on('click','.restore',function(){
+            var username = $(this).data('username');
+            confirmwindow('是否恢复客服专员[' + username + ']座席状态?', '/custom/account/restore.html?username=' + username);
+        });
+    });
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}
+{>"share/confirm" /}

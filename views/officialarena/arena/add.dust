@@ -1,0 +1,460 @@
+<meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+      href="/assets/global/css/unicorn.main.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css"
+      href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css"/>
+
+
+<div id="content">
+  <div id="content-header">
+      <h1>官方竞技场创建</h1>
+
+  </div>
+  <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="widget-box">
+            <div class="widget-title">
+              <span class="icon">
+                <i class="icon-signal"><i class="fa fa-edit font-green-sharp"></i></i>
+              </span>
+              <h5>创建竞技场</h5>
+            </div>
+            <div class="widget-content">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="portlet">
+                          <div class="portlet-title">
+
+                              <div class="actions">
+                                  <a href="/officialarena/arena/" class="ajaxify btn btn-circle red-sunglo">
+                                      <i class="fa fa-reply"></i>
+                                      返回
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="portlet-body form">
+                              <form role="form" class="form-horizontal" id="inputForm" action="" method="post">
+                                  <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">赛事：</label>
+                                        <div class="col-md-2">
+                                            <input type="hidden" id="competition" name="competition" class="form-control select2" value=
+                                              "" />
+                                        </div>
+                                    </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">竞技场标题：</label>
+                                          <div class="col-md-4 input-group" >
+                                            <input type="text" id = "name" name="name" class="form-control" value=  "" >
+                                            <span class="help-inline">上限20字</span>
+                                          </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">MatchDay：</label>
+                                          <div class="col-md-2">
+                                              <input type="hidden" id="matchDate" name="matchDate" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">开始时间：</label>
+
+                                            <div class="col-md-2 ">
+                                              <input id ="visibleTime" type="hidden" value ="" />
+                                              <div id="sandbox-container">
+                                                <div class="input-group date">
+                                                  <input id ="visibleTimeInput" type="text" class="form-control" value ="" />
+                                                  <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                                </div>
+                                              </div>
+
+                                            </div>
+
+                                            <div class="input-group" >
+                                              <div class = "row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-3" >
+                                                      <input type="text" id= "time" name="time" class="form-control" value=  "" >
+                                                      <label class="help-inline">时</label>
+                                                    </div>
+                                                    <div class="col-md-3" >
+                                                      <input type="text" id= "minutes" name="minutes" class="form-control" value=  "" >
+                                                      <label class="help-inline">分</label>
+                                                    </div>
+                                                    <div class="col-md-3" >
+                                                      <input type="text" id= "seconds" name="seconds" class="form-control" value=  "" >
+                                                      <label class="help-inline">秒</label>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">竞技类型：</label>
+                                          <div class="col-md-2">
+                                              <input type="hidden" id="rule" name="rule" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">追加奖励：</label>
+                                          <div class="col-md-2">
+                                              <input type="hidden" id="addReward" name="addReward" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">追加奖励描述：</label>
+                                          <div class="col-md-5">
+                                              <textarea rows="3" id= "extraInfo"  name="extraInfo" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">奖池设置：</label>
+                                          <div class="col-md-2">
+                                              <input type="text"  id= "maxBonus" name="maxBonus" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">门票设置：</label>
+                                          <div class="col-md-2">
+                                              <input type="text" id= "entryPrice" name="entryPrice" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">人数上限：</label>
+                                          <div class="col-md-2">
+                                              <input type="text" id= "entriesLimit" name="entriesLimit" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">大厅显示位置：</label>
+                                          <div class="col-md-2">
+                                              <input type="text" id= "priority" name="priority" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">显示开关：</label>
+                                          <div class="col-md-1">
+                                              <input type="hidden" id="isVisible" name="isVisible" class="form-control select2" value=
+                                                "" />
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-actions">
+                                      <div class="row">
+                                          <div class="col-md-offset-5 col-md-9">
+                                              <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                              <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js" charset="utf-8"></script>
+<script>
+$(document).ready(function () {
+
+    $.ajax({
+      url: '/officialarena/arena/allCompetition',
+      type: 'GET',
+      dataType: 'json'
+    }).done(function(json) {
+      if (json.status === false) {
+        return toastr.error(json.message);
+      }
+      var data = json.data
+      var competition = []
+      for (var i in data) {
+        competition.push({id: data[i].id,text: data[i].name})
+      }
+      $("#competition").select2({
+          placeholder: "请选择赛事",
+          maximumSelectionSize: 1,
+          minimumResultsForSearch: Infinity,
+          allowClear: true,
+          data: function() { return {results: competition}; }
+      });
+
+    })
+
+    $("#competition").click(
+      function() {
+        var selectIndex = $("#competition").select2('data').id
+        if(selectIndex) {
+          $.ajax({
+            url: '/officialarena/arena/allMatchDate',
+            data: {
+              id: selectIndex
+            },
+            type: 'GET',
+            dataType: 'json'
+          }).done(function(json) {
+
+            if (json.status === false) {
+              return toastr.error(json.message);
+            }
+            var data = json.data
+            console.log(data)
+            var matchdate = []
+            for (var i in data) {
+              matchdate.push({id: i,text: data[i].matchDate})
+            }
+            $("#matchDate").select2({
+                placeholder: "请选择matchDate",
+                maximumSelectionSize: 1,
+                minimumResultsForSearch: Infinity,
+                allowClear: true,
+                data: function() { return {results: matchdate}; }
+            });
+        });
+      }
+    });
+
+    var reward = [
+      {id: 1, text: '无'},
+      {id: 2, text: '有'}
+    ]
+   var athleticType = [
+     {id: 1, text: '第一名有奖'},
+     {id: 2, text: '前三名有奖'},
+     {id: 3, text: '前50%有奖'},
+     {id: 4, text: '前25名有奖'}
+   ]
+
+   $("#matchDate").select2({
+       placeholder: "请选择matchDate",
+       maximumSelectionSize: 1,
+       minimumResultsForSearch: Infinity,
+       allowClear: true,
+       data: function() { return {results: []}; }
+   });
+
+    $("#addReward").select2({
+        placeholder: "请选择追加奖励",
+        maximumSelectionSize: 1,
+        minimumResultsForSearch: Infinity,
+        allowClear: true,
+        data: function() { return {results: reward}; }
+    });
+
+    $("#rule").select2({
+        placeholder: "请选择竞技类型",
+        maximumSelectionSize: 1,
+        minimumResultsForSearch: Infinity,
+        allowClear: true,
+        data: function() { return {results: athleticType}; }
+    });
+
+
+    var visible = [
+      {id: 0, text: '隐藏'},
+      {id: 1, text: '显示'}
+    ]
+    $("#isVisible").select2({
+        placeholder: "请选择显示",
+        maximumSelectionSize: 1,
+        minimumResultsForSearch: Infinity,
+        allowClear: true,
+        data: function() { return {results: visible}; }
+    });
+    $("#isVisible").val(1).trigger("change");
+
+
+    $('.input-group.date').datepicker({
+    autoclose: true,
+    todayBtn: 'linked',
+    language: 'zh-CN',
+    clearBtn: true,
+    endDate: "d",
+  }).on('changeDate', function(ev) {
+    console.log(moment(ev.date).format('YYYY-MM-DD'))
+    $('#visibleTime').val(moment(ev.date).format('YYYY-MM-DD'))
+  })
+
+  var form = $('#inputForm');
+  form.validate({
+      errorElement: 'span',
+      errorClass: 'help-block',
+      rules: {
+        competition: {
+          required: true
+        },
+        name: {
+          required: true
+        },
+        matchDate: {
+          required: true
+        },
+        visibleTime: {
+          required: true
+        },
+        time: {
+          required: true
+        },
+        minutes: {
+          required: true
+        },
+        seconds: {
+          required: true
+        },
+        rule: {
+          required: true
+        },
+        extraInfo: {
+          required: true
+        },
+        maxBonus: {
+          required: true
+        },
+        entryPrice: {
+          required: true
+        },
+        entriesLimit: {
+          required: true
+        },
+        priority: {
+          required: true
+        }
+      },
+      messages: {
+        competition: {
+          required: '赛事不能为空'
+        },
+        name: {
+          required: '竞技场标题不能为空'
+        },
+        matchDate: {
+          required: 'matchDate不能为空'
+        },
+        visibleTime: {
+          required: '开始时间不能为空'
+        },
+        time: {
+          required: '时不能为空'
+        },
+        minutes: {
+          required: '分不能为空'
+        },
+        seconds: {
+          required: '秒不能为空'
+        },
+        rule: {
+          required: '竞技类型不能为空'
+        },
+        extraInfo: {
+          required: '追加奖励描述不能为空'
+        },
+        maxBonus: {
+          required: '奖池设置不能为空'
+        },
+        entryPrice: {
+          required: '门票设置不能为空'
+        },
+        entriesLimit: {
+          required: '人数上限不能为空'
+        },
+        priority: {
+          required: '大厅显示位置不能为空'
+        }
+      },
+      highlight: function (element) {
+          $(element).closest('.form-group').addClass('has-error');
+      },
+
+      success: function (label) {
+          label.closest('.form-group').removeClass('has-error');
+          label.remove();
+      },
+
+      submitHandler: function (form) {
+        submit(form);
+      }
+  });
+
+  form.find('input').keypress(function (e) {
+      if (e.which == 13) {
+          if (form.validate().form()) {
+              submit(form);
+          }
+          return false;
+      }
+  });
+   var submit = function(form) {
+
+   $.ajax({
+       url: '/officialarena/arena/add',
+       data: {
+         competitionId: $("#competition").select2('data').id,
+         name: $("#name").val(),
+         matchDate: $("#matchDate").select2('data').text,
+         visibleTime: $("#visibleTime").val() + " "+ $("#time").val() + ":" + $("#minutes").val() + ":" + $("#seconds").val(),
+         ruleId: $("#rule").select2('data').id,
+         extraInfo: $("#extraInfo").val(),
+         maxBonus: $("#maxBonus").val(),
+         entryPrice: $("#entryPrice").val(),
+         entriesLimit: $("#entriesLimit").val(),
+         priority: $("#priority").val(),
+         isVisible: $("#isVisible").select2('data').id
+      },
+       type: 'POST',
+       dataType: 'json'
+     }).done(function(json) {
+       if (!json.status) {
+         toastr.error('添加官方竞技场失败');
+       } else {
+         toastr.success('创建官方竞技场成功');
+         $("#competitionId").val('').trigger("change")
+         $("#name").val('')
+         $("#matchDate").val('').trigger("change")
+         $("#visibleTimeInput").val('')
+         $("#time").val('')
+         $("#minutes").val('')
+         $("#seconds").val('')
+         $("#ruleId").val('').trigger("change")
+         $("#extraInfo").val('')
+         $("#addReward").val('').trigger("change")
+         $("#maxBonus").val('')
+         $("#entryPrice").val('')
+         $("#entriesLimit").val('')
+         $("#priority").val('')
+         $("#isVisible").val('')
+       }
+     })
+   }
+
+
+});
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}
+{>"share/confirm" /}

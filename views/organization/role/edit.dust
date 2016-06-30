@@ -1,0 +1,148 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/jstree/dist/themes/default/style.min.css"/>
+<h3 class="page-title">
+    角色管理
+    <small>管理系统内人员角色和权限</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 编辑角色</span>
+                </div>
+                <div class="actions">
+                    <a href="/organization/role/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/organization/role/edit.html"
+                      method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">角色名称：<span class="required" aria-required="true">
+										* </span></label>
+
+                            <div class="col-md-9">
+                                <input type="hidden" name="oldrolename" value="{role.name}" />
+                                <input type="text" name="rolename" class="form-control" value="{role.name}" title=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">备注：</label>
+
+                            <div class="col-md-9">
+                                <textarea name="remark" rows="2" class="form-control" title="">{role.remark}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">权限：</label>
+
+                            <div class="col-md-9">
+                                <input name="permissions" type="hidden" id="permissions"/>
+                                <div id="permissiontree"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置
+                                </button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jstree/dist/jstree.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#permissiontree').on('select_node.jstree', function (e, data) {
+            data.instance.select_node(data.node.parents);
+        }).on('deselect_node.jstree', function (e, data) {
+            data.instance.deselect_node(data.node.children_d);
+        }).jstree({
+            plugins: ["wholerow", "checkbox"],
+            strings: {
+                'Loading ...': '加载中，请稍候...'
+            },
+            checkbox: {
+                keep_selected_style: false,
+                three_state: false
+            },
+            core: {
+                themes: {
+                    responsive: true
+                },
+                multiple: true,
+                data: {
+                    url: function () {
+                        return '/organization/role/permission.html?rolename={role.name}';
+                    },
+                    dataType: 'json'
+                }
+            }
+        });
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                rolename: {
+                    required: true
+                }
+            },
+            messages: {
+                rolename: {
+                    required: "请输入角色名称"
+                }
+            },
+
+            highlight: function (element) {
+                $(element)
+                        .closest('.form-group').addClass('has-error'); // set error class to the control group
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function (form) {
+            var nodes = $.jstree.reference('#permissiontree').get_selected();
+            $('#permissions').val(nodes.join(","));
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

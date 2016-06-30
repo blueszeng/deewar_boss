@@ -1,0 +1,210 @@
+<h3 class="page-title">
+    代理人资料
+    <small>代理人资料、佣金、代理区域总览</small>
+</h3>
+{?error}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-red-sunglo">
+                        <i class="fa fa-exclamation-triangle font-red-sunglo"></i>
+                        <span class="caption-subject bold uppercase"> 错误</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {error}
+                </div>
+            </div>
+        </div>
+    </div>
+{:else}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-blue-dark">
+                        <i class="fa fa-user font-blue-dark"></i>
+                        <span class="caption-subject bold uppercase"> 账号信息</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">账号ID：</div>
+                        <div class="col-md-7 value">{agents.username}</div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">姓名：</div>
+                        <div class="col-md-7 value">{agents.showname}</div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">手机号码：</div>
+                        <div class="col-md-7 value">{agents.mobile}</div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">账号状态：</div>
+                        <div class="col-md-7 value">
+                            {@select key="{agents.blocked}"}
+                                {@eq value="0"}<span class="label label-success">激活中</span>{/eq}
+                                {@eq value="1"}<span class="label label-warning">已屏蔽</span>{/eq}
+                            {/select}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">加入平台时间：</div>
+                        <div class="col-md-7 value">{@formatDate date="{agents.createtime}" format="YYYY年M月D日 HH:mm:ss" /}</div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">资料变更时间：</div>
+                        <div class="col-md-7 value">{@formatDate date="{agents.updatetime}" format="YYYY年M月D日 HH:mm:ss" /}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-info font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> 上级营销专员</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">姓名：</div>
+                        <div class="col-md-7 value">{upstaff.showname}</div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">手机号码：</div>
+                        <div class="col-md-7 value">{upstaff.mobile}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-blue-dark">
+                        <i class="fa fa-money font-blue-dark"></i>
+                        <span class="caption-subject bold uppercase"> 佣金信息</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">未结算佣金：</div>
+                        <div class="col-md-7 value">{commission.nosettled}元</div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">已结算佣金：</div>
+                        <div class="col-md-7 value">{commission.settled}元</div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-yellow">
+                        <i class="fa fa-credit-card font-yellow"></i>
+                        <span class="caption-subject bold uppercase"> 结算信息</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row static-info">
+                        <div class="col-md-5 name">身份证号码：</div>
+                        <div class="col-md-7 value">{agents.idcard}</div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">开户银行：</div>
+                        <div class="col-md-7 value">
+                            {?agents.bankname}
+                                {agents.bankname}
+                            {:else}
+                                <span class="label label-default">未设置</span>
+                            {/agents.bankname}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">开户名：</div>
+                        <div class="col-md-7 value">
+                            {?agents.bankuser}
+                                {agents.bankuser}
+                            {:else}
+                                <span class="label label-default">未设置</span>
+                            {/agents.bankuser}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <div class="col-md-5 name">银行账号：</div>
+                        <div class="col-md-7 value">
+                            {?agents.bankno}
+                                {agents.bankno}
+                            {:else}
+                                <span class="label label-default">未设置</span>
+                            {/agents.bankno}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-blue-soft">
+                        <i class="fa fa-globe font-blue-soft"></i>
+                        <span class="caption-subject bold uppercase"> 代理小区</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                街道
+                            </th>
+                            <th>
+                                小区/区域名
+                            </th>
+                            <th>
+                                地址
+                            </th>
+                            <th>
+                                户数
+                            </th>
+                            <th>
+                                关键字
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {#villages}
+                            <tr>
+                                <td>
+                                    {id}
+                                </td>
+                                <td>
+                                    {zone}
+                                </td>
+                                <td>
+                                    {villagename}
+                                </td>
+                                <td>
+                                    {address}
+                                </td>
+                                <td>
+                                    {households}户
+                                </td>
+                                <td>
+                                    {villagekey}
+                                </td>
+                            </tr>
+                            {/villages}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{/error}
+

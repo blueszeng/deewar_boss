@@ -1,0 +1,295 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    游戏管理
+    <small>管理系统内游戏信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 编辑游戏</span>
+                </div>
+                <div class="actions">
+                    <a href="/organization/game/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/organization/game/edit.html" method="post">
+                    <div class="form-body">
+
+                      <div class="form-group">
+                          <div class="col-md-9">
+                              <input type="hidden" name="gameId" class="form-control" title="" value="{game.id}" />
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">赛事：</label>
+                          <div class="col-md-9">
+                              <input type="hidden" id="categoryId" name="categoryId" class="form-control select2" value=
+                                "{category.name[game.categoryId]}">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">主场：</label>
+                          <div class="col-md-9">
+                              <input type="hidden" id="hostTeamId" name="hostTeamId" class="form-control select2" value=
+                                "">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">客场：</label>
+                          <div class="col-md-9">
+                              <input type="hidden" id="guestTeamId" name="guestTeamId" class="form-control select2" value=
+                                "">
+                        　</div>
+                    　</div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">比赛日：</label>
+                          <div class="col-md-9">
+                              <input type="hidden" id="matchDayId" name="matchDayId" class="form-control select2" value=
+                                "{matchday.name[matchday.id[game.matchDayId]]}">
+                    　    </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">游戏名：</label>
+                          <div class="col-md-9">
+                              <input type="text" name="name" class="form-control" title="" value="{game.name}" />
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">游戏开始时间：</label>
+                          <div class="col-md-9">
+                              <input type="text" name="startTime" class="form-control" title="" value="{game.startTime}" />
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-md-3 control-label">描述：</label>
+                          <div class="col-md-9">
+                              <input type="text" name="ext" class="form-control" title="" value="{game.ext}" />
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var categoryName = '{category.name}';
+        $("#categoryId").select2({
+            placeholder: "请选择赛事",
+            maximumSelectionSize: 1,
+            tags: categoryName.split(',')
+        });
+      //  var c =
+
+
+        var hostTeamName = '{team.name}';
+        hostTeamName = hostTeamName.split(',')
+        var hostTeamNameData = []
+
+        hostTeamName.forEach(function(teamName, i) {
+            if(teamName) {
+              hostTeamNameData.push({id: i-1, text: teamName})
+            }
+        });
+        var exchageTeam = hostTeamNameData.slice(0)
+        var tempExchageTeam= {}
+        var listenList  = {}
+        tempExchageTeam['2'] = []
+        tempExchageTeam['1']= []
+
+        $("#hostTeamId").select2({
+            placeholder: "请选择主场",
+            maximumSelectionSize: 1,
+            minimumResultsForSearch: Infinity,
+            allowClear: true,
+            data: function() { return {results: hostTeamNameData}; }
+        });
+
+        $("#guestTeamId").select2({
+            placeholder: "请选择客场",
+            maximumSelectionSize: 1,
+            minimumResultsForSearch: Infinity,
+            allowClear: true,
+            data: function() { return {results: hostTeamNameData}; }
+        })
+
+        $("#hostTeamId").click(
+          function() {
+            listenList['1'] = true
+            if($("#hostTeamId").val() && hostTeamNameData.length > exchageTeam.length -Object.keys(listenList).length ) {
+              tempExchageTeam['1'].push(hostTeamNameData.splice($("#hostTeamId").val(),1)[0])
+              for(var i =0; i < hostTeamNameData.length; i++) {
+                hostTeamNameData[i].id = i
+              }
+            }
+            else if($("#hostTeamId").val()){
+              var temp = tempExchageTeam['1'].pop()
+              tempExchageTeam['1'].push(hostTeamNameData.splice($("#hostTeamId").val(),1)[0])
+              hostTeamNameData.push(temp)
+              for(var i =0; i < hostTeamNameData.length; i++) {
+                hostTeamNameData[i].id = i
+              }
+            }
+            else {
+              hostTeamNameData.push(tempExchageTeam['1'].pop())
+              for(var i =0; i < hostTeamNameData.length; i++) {
+                hostTeamNameData[i].id = i
+              }
+              delete listenList['1']
+            }
+          }
+        );
+      $("#guestTeamId").click(
+        function() {
+          listenList['2'] = true
+          if($("#guestTeamId").val() && hostTeamNameData.length > exchageTeam.length - Object.keys(listenList).length ) {
+            tempExchageTeam['2'].push(hostTeamNameData.splice($("#guestTeamId").val(),1)[0])
+            for(var i =0; i < hostTeamNameData.length; i++) {
+              hostTeamNameData[i].id = i
+            }
+          }
+          else if($("#guestTeamId").val()){
+            var temp = tempExchageTeam['2'].pop()
+            tempExchageTeam['2'].push(hostTeamNameData.splice($("#guestTeamId").val(),1)[0])
+            hostTeamNameData.push(temp)
+            for(var i =0; i < hostTeamNameData.length; i++) {
+              hostTeamNameData[i].id = i
+            }
+          }
+          else {
+            hostTeamNameData.push(tempExchageTeam['2'].pop())
+            for(var i =0; i < hostTeamNameData.length; i++) {
+              hostTeamNameData[i].id = i
+            }
+            delete listenList['2']
+          }
+        }
+        );
+
+        $("#hostTeamId").val('{game.hostTeamId}' -1).trigger("change")
+        $("#hostTeamId").trigger("click");
+
+        for(var i =0; i < hostTeamNameData.length; i++) {
+          if(hostTeamNameData[i].text === '{team.name[game.guestTeamId]}') {
+            $("#guestTeamId").val(i).trigger("change")
+            $("#guestTeamId").trigger("click");
+          }
+        }
+
+        var matchdayName = '{matchday.name}';
+        console.log('aaaa' ,'{game.matchDayId}','{matchday.name[matchday.id[game.matchDayId]]}')
+        $("#matchDayId").select2({
+            placeholder: "请选择比赛日",
+            maximumSelectionSize: 1,
+            tags: matchdayName.split(',')
+        });
+
+        var form = $('#inputForm');
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+              categoryId:{
+                required : true
+              },
+              hostTeamId: {
+                required : true
+              },
+              guestTeamId: {
+                required : true
+              },
+              matchDayId: {
+                required : true
+              },
+              name: {
+                required : true
+              },
+              startTime: {
+                required : true,
+                date: true
+              }
+            },
+            messages: {
+              categoryId:{
+                required : '赛事不能为空'
+              },
+              hostTeamId: {
+                required : '主场不能为空'
+              },
+              guestTeamId: {
+                required : '客场不能为空'
+              },
+              matchDayId: {
+                required : '比赛日',
+                date: '时间格式不对'
+              },
+              name: {
+                required : '赛场不能为空'
+              },
+              startTime: {
+                required : '启动时间不能为空',
+                date: '时间格式不对'
+              }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').editClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                setTeamData()
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+
+        var setTeamData = function(){
+          var hostTeamName = $("#hostTeamId").select2('data').text;
+          $("#hostTeamId").val(hostTeamName)
+
+          var guestTeamName = $("#guestTeamId").select2('data').text;
+          $("#guestTeamId").val(guestTeamName)
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

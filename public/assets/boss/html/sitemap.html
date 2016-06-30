@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>地图</title>
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=D532a6c51f468eccb5a1f50e46f99edb"></script>
+</head>
+<body>
+<div id="allmap" style="width: 100%;height: 100%"></div>
+<script type="text/javascript">
+
+    /**
+     * @return {null}
+     */
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r!=null){
+            return  unescape(r[2]);
+        }
+        return null;
+    }
+
+    var map = new BMap.Map("allmap");
+    map.enableScrollWheelZoom(true);
+    map.addControl(new BMap.NavigationControl());
+    var geoc = new BMap.Geocoder();
+
+    var lat = GetQueryString('lat');
+    var lng = GetQueryString('lng');
+    if (lat && lng){
+        map.centerAndZoom(new BMap.Point(lng,lat),14);
+    } else {
+        map.centerAndZoom(new BMap.Point(116.331398,39.897445),14);
+    }
+
+    map.addEventListener("click", function(e){
+        var pt = e.point;
+        geoc.getLocation(pt, function(rs){
+            var addComp = rs.addressComponents;
+            var address = addComp.district + addComp.street + addComp.streetNumber;
+            window.parent.mapresult(address,pt.lng,pt.lat);
+        });
+    });
+
+    function search(keyword,city){
+        var local = new BMap.LocalSearch(city, {
+            onSearchComplete: function(results){
+                // 判断状态是否正确
+                if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                    if (results.getCurrentNumPois() > 0){
+                        var poi = results.getPoi(0);
+                        map.clearOverlays();
+                        var marker = new BMap.Marker(poi.point);
+                        map.addOverlay(marker);
+                        map.panTo(poi.point);
+                        window.parent.mapresult(poi.title,poi.point.lng,poi.point.lat);
+                    }
+                }
+            }
+        });
+        local.search(keyword);
+    }
+
+
+</script>
+</body>
+</html>

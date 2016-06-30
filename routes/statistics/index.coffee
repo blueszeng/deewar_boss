@@ -1,0 +1,9 @@
+express = require('express')
+router = express.Router()
+circulatesRoute = require('./circulates')
+operativeRoute = require('./operative')
+mallexchangeRoute = require('./mallexchange')
+router.use '/circulates', circulatesRoute
+router.use '/operative', operativeRoute
+router.use '/mallexchange', mallexchangeRoute
+module.exports = router

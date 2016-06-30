@@ -1,0 +1,227 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    商品单元管理
+    <small>管理系统内商品单元信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-edit font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 增加商品单元</span>
+                </div>
+                <div class="actions">
+                    <a href="/store/productUnit/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/store/productUnit/add.html" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">商品名称：</label>
+                            <div class="col-md-9">
+                                <input type="hidden" id="productId" name="productId" class="form-control select2" value=
+                                  "">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">属性：</label>
+                            <div class="col-md-9">
+                                <input type="hidden" id="propertyId" name="propertyId" class="form-control select2" value=
+                                  "">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">属性分类：</label>
+                            <div class="col-md-9">
+                                <input type="hidden" id="propertyValueId" name="propertyValueId" class="form-control select2" value=
+                                  "">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">库存：</label>
+                            <div class="col-md-9">
+                                <input type="text" id ="stock" name="stock" class="form-control select2" value=
+                                  "" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var _productName = '{product.name}';
+        var _productId = '{product.id}';
+        productName = _productName.split(',')
+        productId = _productId.split(',')
+        var productNameData = []
+        var _propertyValue = []
+
+        productName.forEach(function(name, i) {
+            if(name) {
+              productNameData.push({id: productId[i], text: name})
+            }
+        });
+
+        $("#productId").select2({
+            placeholder: "请选属性",
+            maximumSelectionSize: 1,
+            minimumResultsForSearch: Infinity,
+            allowClear: true,
+            data: function() { return {results: productNameData}; }
+        });
+
+        var _propertyName = '{property.name}';
+        var _propertyId = '{property.id}';
+        propertyName = _propertyName.split(',')
+        propertyId = _propertyId.split(',')
+        var propertyNameData = []
+        propertyName.forEach(function(name, i) {
+            if(name) {
+              propertyNameData.push({id: propertyId[i], text: name})
+            }
+        });
+        $("#propertyId").select2({
+            placeholder: "请选属性",
+            maximumSelectionSize: 1,
+            minimumResultsForSearch: Infinity,
+            allowClear: true,
+            data: function() { return {results: propertyNameData}; }
+        });
+
+        $("#propertyId").click(
+          function() {
+            var selectIndex = $("#propertyId").val()
+            console.log(selectIndex)
+            if(selectIndex) {
+              $.ajax({
+                url: '/store/productUnit/propertyValue',
+                data: {
+                  id: selectIndex
+                },
+                type: 'GET',
+                dataType: 'json'
+              }).done(function(json) {
+                if (Object.keys(json).length > 0) {
+                  var _propertyValueData = []
+                  for (var i = 0; i < json.propertyValue.id.length; i++ ) {
+                    _propertyValueData.push({id: json.propertyValue.id[i] , text: json.propertyValue.name[i] + ''})
+
+                  }
+                  _propertyValue = _propertyValueData
+                }
+
+              })
+            }
+          });
+
+          $("#propertyValueId").select2({
+              placeholder: "请选属性分类",
+              maximumSelectionSize: 1,
+              minimumResultsForSearch: Infinity,
+              allowClear: true,
+              data: function() { return {results: _propertyValue}; }
+          });
+
+        var form = $('#inputForm');
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                productId: {
+                    required : true
+                },
+                propertyId: {
+                    required: true
+                },
+                propertyValueId: {
+                    required: true
+                },
+                stock: {
+                    required: true
+                }
+            },
+            messages: {
+                productId: {
+                    required: "请选择商品名称"
+                },
+                propertyId: {
+                    required: "请选择属性"
+                },
+                propertyValueId: {
+                    required: "请选择属性分类"
+                },
+                stock: {
+                    required: "请输入库存"
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+          $.ajax({
+            url: '/store/productUnit/add',
+            data: {
+                data:
+                  JSON.stringify({
+                  productId: $("#productId").select2('data').id,
+                  propertyId: $("#propertyId").select2('data').id,
+                  propertyValueId: $("#propertyValueId").select2('data').id,
+                  stock: $("#stock").val()
+                })
+          },
+            type: 'POST',
+            dataType: 'json'
+          }).done(function(json) {
+            if (!json.status) {
+              toastr.error(json.message);
+            } else {
+              toastr.success('添加成功');
+              $("#stock").val('')
+              $("#propertyValueId").val('').trigger("change")
+            }
+          })
+        }
+
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

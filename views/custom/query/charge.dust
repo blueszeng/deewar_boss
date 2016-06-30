@@ -1,0 +1,151 @@
+{?error}
+    <div class="note note-danger">
+        <h4 class="block">发生错误</h4>
+        <p>
+            {error}
+        </p>
+    </div>
+{:else}
+    <link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title"><i class="fa fa-money"></i> 活动返现充值</h4>
+    </div>
+    <div class="modal-body form">
+        <form role="form" class="form-horizontal" id="inputForm" action="/custom/query/charge.html" method="post">
+            <input type="hidden" name="userid" value="{userid}" />
+            <div class="form-body">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">关联订单号：<span class="required" aria-required="true">
+										* </span></label>
+                    <div class="col-md-9">
+                        <input type="text" name="orderno" class="form-control input-medium" title="" maxlength="14" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">活动类型：<span class="required" aria-required="true">
+										* </span></label>
+                    <div class="col-md-9">
+                        <select name="remark" class="form-control select2 input-medium">
+                            <option value="指定鞋类别当天免费">指定鞋类别当天免费</option>
+                            <option value="指定鞋品牌当天免费">指定鞋品牌当天免费</option>
+                            <option value="分享朋友圈">分享朋友圈</option>
+                            <option value="公测下单二等奖返现">公测下单二等奖返现</option>
+                            <option value="公测下单三等奖返现">公测下单三等奖返现</option>
+                            <option value="本周下单抽奖全额返现">本周下单抽奖全额返现</option>
+                            <option value="本周活动半价优惠返现">本周活动半价优惠返现</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">返现金额：<span class="required" aria-required="true">* </span></label>
+                    <div class="col-md-9">
+                        <input type="text" name="amount" class="form-control input-small" title="" maxlength="3" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                        <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/assets/global/plugins/select2/select2.min.js"></script>
+    <script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            var form = $('#inputForm');
+
+            form.validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                rules: {
+                    orderno:{
+                        required : true,
+                        maxlength:14,
+                        minlength:14
+                    },
+                    remark: {
+                        required: true
+                    },
+                    amount: {
+                        required: true,
+                        number:true,
+                        min:1,
+                        max:499
+                    }
+                },
+                messages: {
+                    orderno:{
+                        required: "请输入关联订单号",
+                        maxlength:'请输入14位的订单号',
+                        minlength:'请输入14位的订单号'
+                    },
+                    remark: {
+                        required: "请选择活动返现类型"
+                    },
+                    amount:{
+                        required: '请输入返现金额',
+                        number:'无效的金额',
+                        min:'最少返现1元',
+                        max:'最多返现499元'
+                    }
+                },
+
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+
+                success: function (label) {
+                    label.closest('.form-group').removeClass('has-error');
+                    label.remove();
+                },
+
+                submitHandler: function (form) {
+                    submit(form);
+                }
+            });
+
+            form.find('input').keypress(function (e) {
+                if (e.which == 13) {
+                    if (form.validate().form()) {
+                        submit(form);
+                    }
+                    return false;
+                }
+            });
+
+            var submit = function(form){
+                jQuery.ajax({
+                    url: $(form).attr('action'),
+                    type: $(form).attr('method'),
+                    cache: false,
+                    dataType: "json",
+                    data: $(form).serialize(),
+                    success: function (res) {
+                        if (res.success){
+                            $('#ajaxmodal').modal('hide');
+                            $('#refreshuser').trigger('click');
+                        } else {
+                            $(form).validate().showErrors({
+                                "remark": res.message
+                            });
+                        }
+                    },
+                    error: function () {
+                        $(form).validate().showErrors({
+                            "remark": "系统异常"
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+{/error}

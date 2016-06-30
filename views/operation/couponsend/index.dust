@@ -1,0 +1,139 @@
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<h3 class="page-title">
+    优惠券批量发放
+    <small>针对指定用户批量发放优惠券</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-gift font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 批量发放优惠券</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/operation/couponsend/" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">优惠券类型：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <select id="couponid" name="couponid" class="form-control input-medium select2me" data-placeholder="请选择优惠券类型" title="">
+                                    <option value="">请选择优惠券类型</option>
+                                    {#coupons}
+                                        <option value="{id}" data-amount="{amount}">{cardname}({amount}元－{expiredate}天)</option>
+                                    {/coupons}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">赠送留言：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <textarea id="remark" name="remark" rows="2" class="form-control" title=""></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">发送用户：<span class="required" aria-required="true">
+										* </span></label>
+
+                            <div class="col-md-9">
+                                <textarea name="userids" rows="5" class="form-control" title=""></textarea>
+                                <span class="help-block">每行一个用户ID，最多300个用户</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/select2/select2.min.js"></script>
+<script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        $('#couponid').select2().on('select2-selecting',function(e){
+            var remark = $('#remark');
+            if (e.val){
+                var amount = $(e.choice.element[0]).data('amount');
+                remark.text('e洗鞋' + amount + '元优惠券已存入您的账户，快下单叫我们的小哥上门来取走您需要清洁护理的鞋子吧～');
+            } else {
+                remark.text('');
+            }
+        });
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                couponid:{
+                    required : true
+                },
+                remark: {
+                    required: true
+                },
+                userids:{
+                    required: true
+                }
+            },
+            messages: {
+                couponid:{
+                    required: "请选择优惠券类型"
+                },
+                remark: {
+                    required: "请输入赠送留言"
+                },
+                userids:{
+                    required: '请输入需要批量发送的用户的ID列表'
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}

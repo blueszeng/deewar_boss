@@ -1,0 +1,143 @@
+<link rel="stylesheet" type="text/css"
+      href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<h3 class="page-title">
+    球队管理
+    <small>管理系统内球队信息</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-list font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 球队列表</span>
+                    <span class="caption-helper">系统内所有球队列表</span>
+                </div>
+                <div class="actions">
+                    <a href="/organization/player/add.html" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-plus"></i>
+                        增加球队
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <table class="table table-striped table-bordered table-hover" id="datatable">
+                        <thead>
+                        <tr role="row" class="heading">
+                            <th width="15%">
+                                姓名
+                            </th>
+                            <th width="10%">
+                                位置
+                            </th>
+                            <th width="10%">
+                                球队
+                            </th>
+                            <th width="10%">
+                                头像
+                            </th>
+                            <th width="15%">
+                                备注
+                            </th>
+                            <th width="12%">
+                                球队价格
+                            </th>
+                            <th width="15%">
+                                分数
+                            </th>
+                            <th width="18%"></th>
+                        </tr>
+                        <tr role="row" class="filter">
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="MysSearch_0" placeholder="按姓名搜索">
+                            </td>
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="MysSearch_1" placeholder="按位置搜索">
+                            </td>
+                            <td>
+                                <input type="text" title="" class="form-control form-filter input-sm" name="MysSearch_2" placeholder="按球队搜索">
+                            </td>
+                            <td>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="btn btn-circle btn-sm btn-success filter-submit"><i
+                                        class="fa fa-search"></i> 搜索
+                                </button>
+                                <button class="btn btn-circle btn-sm btn-default filter-cancel"><i
+                                        class="fa fa-times"></i> 重置
+                                </button>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<script src="/assets/global/scripts/datatable.js"></script>
+<script type="text/javascript" src="/assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var datatable = $("#datatable");
+        var grid = new Datatable();
+        grid.init({
+            src: datatable,
+            dataTable: {
+                bStateSave: false,
+                lengthMenu: [
+                    [10, 20, 50, 100, 150, -1],
+                    [10, 20, 50, 100, 150, '全部']
+                ],
+                pageLength: 10,
+                ajax: {
+                    url: '/organization/player/list.html'
+                },
+                order: [
+                    [5,'desc']
+                ],
+                aoColumnDefs: [{
+                    aTargets: [4],
+                    bSortable : false
+                },{
+                    aTargets: [5],
+                    bSortable: true
+                    // mRender: function(data){
+                    //     return moment(data).format('YYYY-MM-DD HH:mm:ss');
+                    // }
+                },{
+                    mData:null,
+                    bSortable : false,
+                    aTargets : [7],
+                    mRender: function ( data, type, row ) {
+                        var id = row[7];
+                        return '<a href="/organization/player/edit.html?id=' +id+ '" class="ajaxify btn btn-sm default green-stripe btn-circle"><i class="fa fa-edit"></i> 修改</a> <a data-id="'+id+'" class="delete btn-sm btn btn-circle yellow-stripe default"><i class="fa fa-times"></i> 删除</a>';
+
+                    }
+                }]
+            }
+        });
+
+        datatable.on('click','.delete',function(e){
+            var name = e.target.parentElement.parentElement.getElementsByTagName('td')[0].innerText;
+            var userId = $(this).data('id');
+            confirmwindow('是否删除球队[' + name + ']?', '/organization/player/del.html?userId=' + userId +'&name=' + name);
+        });
+    });
+</script>
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}
+{>"share/confirm" /}

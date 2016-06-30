@@ -1,0 +1,26 @@
+<h3 class="page-title">
+    渠道管理
+    <small>管理系统内用户和优惠券的来源</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-qrcode font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 投放用户来源二维码</span>
+                </div>
+                <div class="actions">
+                    <a href="/operation/channel/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body text-center">
+                <img src="{imgsrc}" style="width:128px;height:128px;" />
+            </div>
+        </div>
+    </div>
+</div>
+

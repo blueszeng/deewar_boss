@@ -1,0 +1,17 @@
+{
+  "name": "boss",
+  "description": "Boss Server",
+  "main": "boss.js",
+  "authors": [
+    "blues <blues.zeng@trantect.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

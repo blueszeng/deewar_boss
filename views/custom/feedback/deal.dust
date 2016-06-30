@@ -1,0 +1,126 @@
+<h3 class="page-title">
+    用户反馈管理
+    <small>用户反馈意见以及处理</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-comment font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 处理意见</span>
+                </div>
+                <div class="actions">
+                    <a href="/custom/feedback/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/custom/feedback/deal.html" method="post">
+                    <input type="hidden" name="id" value="{feedback.id}" />
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">联系人：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {feedback.contact}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">联系电话：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {feedback.mobile}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">反馈时间：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {@formatDate date="{feedback.createtime}" format="YYYY年M月D日 HH:mm:ss" /}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">反馈意见：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {feedback.feedback}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">处理结果：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <textarea name="dealresult" rows="3" class="form-control" title=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                dealresult:{
+                    required : true
+                }
+            },
+            messages: {
+                dealresult:{
+                    required: "请输入处理结果"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>

@@ -1,0 +1,40 @@
+<link href="/assets/boss/css/pages/board.css" rel="stylesheet" type="text/css"/>
+<h3 class="page-title">
+    系统公告
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-body">
+                <ul class="timeline">
+                    {#board}
+                        <li
+                            {@select key="{icon}"}
+                                {@eq value="gift"}class="timeline-green"{/eq}
+                                {@eq value="cog"}class="timeline-blue"{/eq}
+                                {@eq value="cloud"}class="timeline-red"{/eq}
+                                {@eq value="user"}class="timeline-purple"{/eq}
+                                {@eq value="building"}class="timeline-yellow"{/eq}
+                            {/select}>
+                            <div class="timeline-time">
+								<span class="date">
+                                    {@formatDate date="{updatetime}" format="M月D日" /} </span>
+								<span class="time">
+                                    {@formatDate date="{updatetime}" format="HH:mm" /} </span>
+                            </div>
+                            <div class="timeline-icon">
+                                <i class="fa fa-{icon}"></i>
+                            </div>
+                            <div class="timeline-body">
+                                <h2>{title}</h2>
+                                <div class="timeline-content">
+                                    {content|s}
+                                </div>
+                            </div>
+                        </li>
+                    {/board}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

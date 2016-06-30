@@ -1,0 +1,145 @@
+<h3 class="page-title">
+    收鞋入厂
+    <small>入厂包装拆除与吊牌匹配</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-inbox font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 收鞋</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/factory/in/" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">入厂批次：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="number" name="batchcode" class="form-control" value="{batchcode}" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">塑料袋条码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="packagecode" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">鞋吊牌号码：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input style="width:240px;height:120px;font-size:80px;" type="number" name="labelcode" class="form-control" title="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+        var form = $('#inputForm');
+
+        form.find('input[name="packagecode"]').focus();
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                bactchcode:{
+                    required:true,
+                    minlength:8,
+                    maxlength:8
+                },
+                packagecode:{
+                    required:true,
+                    minlength:12,
+                    maxlength:12
+                },
+                labelcode: {
+                    number: true,
+                    required:true,
+                    maxlength:4
+                }
+            },
+            messages: {
+                batchcode:{
+                    required:'请对本批入厂鞋子进行批次编号',
+                    minlength:'无效的批次长度',
+                    maxlength:'无效的批次长度'
+                },
+                packagecode:{
+                    required:'请使用条码枪扫描',
+                    minlength:'无效的条码长度',
+                    maxlength:'无效的条码长度'
+                },
+                labelcode:{
+                    number: '无效的吊牌编号',
+                    required:'请输入吊牌编号',
+                    maxlength:'最多4个字符'
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input[name="batchcode"]').keypress(function(e){
+            if (e.which == 13) {
+                form.find('input[name="packagecode"]').focus();
+                return false;
+            }
+        });
+
+        form.find('input[name="packagecode"]').keypress(function(e){
+            if (e.which == 13) {
+                form.find('input[name="labelcode"]').focus();
+                return false;
+            }
+        });
+
+        form.find('input[name="labelcode"]').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
+{?error}
+    {>"share/message" type="error" content="{error}" /}
+{/error}
+{?info}
+    {>"share/message" type="success" content="{info}" /}
+{/info}

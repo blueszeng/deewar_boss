@@ -1,0 +1,133 @@
+{?error}
+    <div class="note note-danger">
+        <h4 class="block">发生错误</h4>
+        <p>
+            {error}
+        </p>
+    </div>
+{:else}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title"><i class="fa fa-comments"></i> 订单备注信息</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row" style="overflow-y: scroll;height:300px;">
+            <div class="col-md-12">
+                <ul class="chats">
+                    {#comments}
+                        {@eq key="{commentname}" value="{me}"}
+                        <li class="out">
+                        {:else}
+                        <li class="in">
+                        {/eq}
+                            {@select key="{commentrole}"}
+                                {@eq value="客服"}
+                                    <img src="/assets/boss/images/avatar_custom.png" class="avatar" />
+                                {/eq}
+                                {@eq value="物流"}
+                                    <img src="/assets/boss/images/avatar_logistic.png" class="avatar" />
+                                {/eq}
+                            {/select}
+                            <div class="message">
+                                                <span class="arrow">
+                                                </span>
+                                                <span class="name">{commentrole} {commentname}({commentmobile})</span>
+                                                <span class="datetime">
+                                                    {@formatDate date="{updatetime}" format="YYYY-M-D HH:mm:ss" /}
+                                                </span>
+                                                <span class="body">
+                                                {comment}
+                                                </span>
+                            </div>
+                        </li>
+                    {/comments}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer form">
+            <form role="form" class="form-horizontal" id="commentForm" action="/custom/query/comment.html" method="post">
+                <input type="hidden" name="orderid" value="{orderid}" />
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="text" name="comment" class="form-control" placeholder="输入新的订单备注...">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-check"></i> 确定</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+    <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            var form = $('#commentForm');
+
+            form.validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                rules: {
+                    comment:{
+                        required : true
+                    }
+                },
+                messages: {
+                    comment:{
+                        required: "请输入备注内容"
+                    }
+                },
+
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+
+                success: function (label) {
+                    label.closest('.form-group').removeClass('has-error');
+                    label.remove();
+                },
+
+                submitHandler: function (form) {
+                    submit(form);
+                }
+            });
+
+            form.find('input').keypress(function (e) {
+                if (e.which == 13) {
+                    if (form.validate().form()) {
+                        submit(form);
+                    }
+                    return false;
+                }
+            });
+
+
+            var submit = function(form){
+                jQuery.ajax({
+                    url: $(form).attr('action'),
+                    type: $(form).attr('method'),
+                    cache: false,
+                    dataType: "json",
+                    data: $(form).serialize(),
+                    success: function (res) {
+                        if (res.success){
+                            $('#ajaxmodal').modal('hide');
+                        } else {
+                            $(form).validate().showErrors({
+                                "comment": res.message
+                            });
+                        }
+                    },
+                    error: function () {
+                        $(form).validate().showErrors({
+                            "comment": "系统异常"
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+{/error}

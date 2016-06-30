@@ -1,0 +1,137 @@
+{?error}
+    <div class="note note-danger">
+        <h4 class="block">发生错误</h4>
+        <p>
+            {error}
+        </p>
+    </div>
+{:else}
+    <link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title"><i class="fa fa-gift"></i> 赠送优惠券</h4>
+    </div>
+    <div class="modal-body form">
+        <form role="form" class="form-horizontal" id="inputForm" action="/custom/query/coupon.html" method="post">
+            <input type="hidden" name="userid" value="{userid}" />
+            <div class="form-body">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">优惠券类型：<span class="required" aria-required="true">
+										* </span></label>
+                    <div class="col-md-9">
+                        <select id="couponid" name="couponid" class="form-control input-medium select2me" data-placeholder="请选择优惠券类型" title="">
+                            <option value="">请选择优惠券类型</option>
+                            {#coupons}
+                                <option value="{id}" data-amount="{amount}">{cardname}({amount}元－{expiredate}天)</option>
+                            {/coupons}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">赠送留言：<span class="required" aria-required="true">
+										* </span></label>
+                    <div class="col-md-9">
+                        <textarea id="remark" name="remark" rows="2" class="form-control" title=""></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                        <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/assets/global/plugins/select2/select2.min.js"></script>
+    <script src="/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $('#couponid').select2().on('select2-selecting',function(e){
+                var remark = $('#remark');
+                if (e.val){
+                    var amount = $(e.choice.element[0]).data('amount');
+                    remark.text('e洗鞋' + amount + '元优惠券已存入您的账户，快下单叫我们的小哥上门来取走您需要清洁护理的鞋子吧～');
+                } else {
+                    remark.text('');
+                }
+            });
+
+            var form = $('#inputForm');
+
+            form.validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                rules: {
+                    couponid:{
+                        required : true
+                    },
+                    remark: {
+                        required: true
+                    }
+                },
+                messages: {
+                    couponid:{
+                        required: "请选择优惠券类型"
+                    },
+                    remark: {
+                        required: "请输入赠送留言"
+                    }
+                },
+
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+
+                success: function (label) {
+                    label.closest('.form-group').removeClass('has-error');
+                    label.remove();
+                },
+
+                submitHandler: function (form) {
+                    submit(form);
+                }
+            });
+
+            form.find('input').keypress(function (e) {
+                if (e.which == 13) {
+                    if (form.validate().form()) {
+                        submit(form);
+                    }
+                    return false;
+                }
+            });
+
+
+            var submit = function(form){
+                jQuery.ajax({
+                    url: $(form).attr('action'),
+                    type: $(form).attr('method'),
+                    cache: false,
+                    dataType: "json",
+                    data: $(form).serialize(),
+                    success: function (res) {
+                        if (res.success){
+                            $('#ajaxmodal').modal('hide');
+                            $('#refreshuser').trigger('click');
+                        } else {
+                            $(form).validate().showErrors({
+                                "remark": res.message
+                            });
+                        }
+                    },
+                    error: function () {
+                        $(form).validate().showErrors({
+                            "remark": "系统异常"
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+{/error}

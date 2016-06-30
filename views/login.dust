@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8"/>
+    <title>业务支撑管理系统</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="业务支撑管理系统" name="description"/>
+    <meta content="junewinds" name="author"/>
+    <link href="http://fonts.useso.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+    <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/boss/css/pages/login.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/boss/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/boss/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>
+    <!--[if IE]><link rel="shortcut icon" href="/assets/boss/icon/favicon.ico"><![endif]-->
+    <link rel="apple-touch-icon-precomposed" href="/assets/boss/icon/icon180.png">
+    <link rel="icon" href="/assets/boss/icon/icon196.png">
+</head>
+<body class="login">
+<div class="logo">
+
+</div>
+<div class="content">
+    <form name="form" class="login-form" action="/login.html?to={to}" method="post">
+        <h3 class="form-title">登录</h3>
+        <div class="{^error}hidden{:else}alert alert-danger{/error}">
+            <button class="close" data-close="alert"></button>
+            <span>{error}</span>
+        </div>
+        <div class="{^info}hidden{:else}alert alert-success{/info}">
+            <button class="close" data-close="alert"></button>
+            <span>{info}</span>
+        </div>
+        <div class="alert alert-danger display-hide">
+            <button class="close" data-close="alert"></button>
+			<span>请输入用户名和密码</span>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">用户</label>
+            <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="请输入用户名" name="username"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">密码</label>
+            <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="请输入登录密码" name="password"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">数据库ip配置</label>
+            <input class="form-control form-control-solid placeholder-no-fix" type="text" placeholder="配置数据库服务器" name="dbIp"/>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success uppercase">确定</button>
+            <label class="rememberme check"><input type="checkbox" name="remember" value="1"/>记住我 </label>
+        </div>
+    </form>
+</div>
+<div class="copyright">
+    2016 - 2016 © 深圳天地同舟有限公司
+</div>
+<!--[if lt IE 9]>
+<script src="/assets/global/plugins/respond.min.js"></script>
+<script src="/assets/global/plugins/excanvas.min.js"></script>
+<![endif]-->
+<script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="/assets/boss/scripts/layout.js" type="text/javascript"></script>
+<script>
+
+
+    $(document).ready(function() {
+
+        Metronic.init();
+        Layout.init();
+
+        var loginform = $('.login-form');
+        loginform.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            rules: {
+                username: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+
+            messages: {
+                username: {
+                    required: "请输入用户名"
+                },
+                password: {
+                    required: "请输入登录密码"
+                }
+            },
+
+            invalidHandler: function () {
+                $('.alert-danger', $('.login-form')).show();
+            },
+
+            highlight: function(element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').addClass('has-error'); // set error class to the control group
+            },
+
+            success: function(label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            errorPlacement: function(error, element) {
+                error.insertAfter(element.closest('.input-icon'));
+            },
+
+            submitHandler: function(form) {
+                form.submit(); // form validation success, call ajax form submit
+            }
+        });
+
+        loginform.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (loginform.validate().form()) {
+                    loginform.submit();
+                }
+                return false;
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

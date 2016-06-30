@@ -1,0 +1,60 @@
+{
+  "name": "boss",
+  "version": "1.0.0",
+  "coffeelintConfig": {
+    "indentation": {
+      "level": "error",
+      "value": 2
+    },
+    "line_endings": {
+      "value": "unix",
+      "level": "error"
+    }
+  },
+  "description": "Boss Server",
+  "private": true,
+  "scripts": {
+    "start": "coffee boss.coffee"
+  },
+  "dependencies": {
+    "aliyun-sdk": "*",
+    "async": "*",
+    "body-parser": "*",
+    "busboy": "*",
+    "coffee-script": "^1.10.0",
+    "config": "*",
+    "connect-redis": "*",
+    "consolidate": "*",
+    "cookie-parser": "*",
+    "crypto": "0.0.3",
+    "debug": "*",
+    "dustjs-helpers": "*",
+    "dustjs-linkedin": "*",
+    "es6-promise": "^3.2.1",
+    "express": "4",
+    "express-session": "*",
+    "hiredis": "^0.5.0",
+    "isomorphic-fetch": "^2.2.1",
+    "joi": "^8.4.2",
+    "lodash": "*",
+    "log4js": "*",
+    "moment": "*",
+    "morgan": "*",
+    "mysql": "*",
+    "node-uuid": "*",
+    "numeral": "*",
+    "qiniu": "*",
+    "redis": "^2.6.2",
+    "request": "*",
+    "serve-favicon": "*",
+    "string": "*",
+    "thunkify": "*",
+    "underscore": "*",
+    "webpack": "^1.13.1",
+    "wechat": "*",
+    "wechat-api": "*",
+    "wechat-oauth": "*",
+    "wechat-pay": "*",
+    "xmlreader": "*"
+  }
+}

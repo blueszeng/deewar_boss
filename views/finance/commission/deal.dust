@@ -1,0 +1,172 @@
+<h3 class="page-title">
+    待结算佣金管理
+    <small>代理人所有申请结算单列表以及处理结算</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="fa fa-comment font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> 结算处理</span>
+                </div>
+                <div class="actions">
+                    <a href="/finance/commission/" class="ajaxify btn btn-circle red-sunglo">
+                        <i class="fa fa-reply"></i>
+                        返回
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form" class="form-horizontal" id="inputForm" action="/finance/commission/deal.html" method="post">
+                    <input type="hidden" name="id" value="{commission.id}" />
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">代理人账号：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {commission.agentname}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">代理人姓名：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {commission.showname}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">代理人电话：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {commission.mobile}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">结算金额：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {commission.commission}元
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">申请时间：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {@formatDate date="{commission.requesttime}" format="YYYY年M月D日 HH:mm:ss" /}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">开户银行：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {commission.bankname}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">开户姓名：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {commission.bankuser}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">银行账号：</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static">
+                                    {commission.bankno}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">银行流水号：<span class="required" aria-required="true">
+										* </span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="settleno" class="form-control" title="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">备注：</label>
+                            <div class="col-md-9">
+                                <textarea name="remark" rows="3" class="form-control" title=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="reset" class="btn btn-default btn-circle"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="submit" class="btn btn-success btn-circle"><i class="fa fa-play"></i> 确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        var form = $('#inputForm');
+
+        form.validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                settleno:{
+                    required : true,
+                    maxlength: 255
+                },
+                remark:{
+                    maxlength: 255
+                }
+            },
+            messages: {
+                settleno:{
+                    required: "请输入银行转账流水号",
+                    maxlength:'流水号太长'
+                },
+                remark:{
+                    maxlength:'流水号太长'
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            submitHandler: function (form) {
+                submit(form);
+            }
+        });
+
+        form.find('input').keypress(function (e) {
+            if (e.which == 13) {
+                if (form.validate().form()) {
+                    submit(form);
+                }
+                return false;
+            }
+        });
+
+
+        var submit = function(form){
+            $.ajaxform(form);
+        }
+    });
+</script>
